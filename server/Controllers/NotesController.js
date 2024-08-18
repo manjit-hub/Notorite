@@ -21,7 +21,7 @@ const uploadNote = async (req, res) => {
         const file = req.file.filename;
 
         const uploadedBy = req.body.userId;
-        console.log(uploadedBy);
+        // console.log(uploadedBy);
 
         const newFile = new Notes({
             fileName: fileName,
@@ -72,7 +72,7 @@ const getNote = async (req, res) => {
 const getNoteByID = async (req, res) => {
     try {
         const userId = req.params.id;
-        console.log(userId);
+        // console.log(userId);
 
         await Notes.find({
             uploadedBy: userId

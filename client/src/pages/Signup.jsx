@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -12,6 +14,7 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const navigate = useNavigate();
 
   const registerUser = async (e) => {
     try {
@@ -37,7 +40,10 @@ const Signup = () => {
         },
       );
       console.log("Data: ", result);
-      alert("User Entry Saved in Database");
+      toast.error("User Entry Saved in Database");
+      setTimeout(() => {
+        navigate("/login");
+      }, 5000);
 
     } catch (error) {
       console.log("Failed to Register User: ", error);
@@ -191,6 +197,7 @@ const Signup = () => {
           </Link>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

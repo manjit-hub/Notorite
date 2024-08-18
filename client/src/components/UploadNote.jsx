@@ -44,7 +44,7 @@ const UploadNote = () => {
 
   return (
     <form className="flex h-full w-full max-w-[770px] flex-col items-center justify-start  p-5 md:border md:border-gray-300 lg:justify-center" onSubmit={submitFile}>
-      <h1 className="mb-5 text-2xl font-black">Upload Your Notes</h1>
+      <h1 className="mb-5 text-2xl font-black text-blue-100">Upload Your Notes</h1>
       <div className="mb-5 w-full max-w-[550px] ">
         <input
           type="text"
@@ -105,7 +105,7 @@ const UploadNote = () => {
               required
               id="dropzone-file"
               onChange={(e) => setFile(e.target.files[0])}
-              className="hidden"
+              // className="hidden"
             />
           </div>
         </label>

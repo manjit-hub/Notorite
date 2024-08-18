@@ -32,7 +32,7 @@ const signup = async (req, res) => {
         }
 
         const result = await cloudinary.uploader.upload(req.file.path);
-        console.log(result);
+        // console.log(result);
 
         const password = req.body.userPassword;
         const saltRounds = 10;
@@ -76,9 +76,11 @@ const login = async (req, res) => {
             if (passwordMatch) {
                 return res.json(user);
             } else {
+                console.log("password didn't matched!!");
                 return res.json({ status: "Error", getUser: false });
             }
         } else {
+            console.log("error found!!");
             return res.json({ status: "Error", getUser: false });
         }
 

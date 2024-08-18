@@ -4,7 +4,7 @@ import { setUserData } from "../Redux/slices/user-slice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -17,12 +17,11 @@ const Login = () => {
   const loginUser = async (e) => {
     try {
       e.preventDefault();
-
+      console.log("LogIn button Clicked");
       const user = {
         userEmail,
         userPassword,
       };
-
       const result = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, user);
       if(result.data.status==="Error")
       {
@@ -35,9 +34,6 @@ const Login = () => {
       dispatch(setUserData(result.data));
       navigate("/");
       }
-
-
-
     } catch (error) {
       console.log("Cannot Login the User: ", error);
     }
@@ -81,6 +77,7 @@ const Login = () => {
           </Link>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };
