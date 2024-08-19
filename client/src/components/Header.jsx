@@ -27,7 +27,7 @@ const Navbar = () => {
           <img src="/logo.png" alt="Logo" />
         </div>
         {/* nav links  */}
-        <GiHamburgerMenu className="text-xl md:hidden" />
+        <GiHamburgerMenu className="text-xl md:hidden text-white" />
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
           <Link to="/" className="text-white">
             Home

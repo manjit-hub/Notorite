@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate  } from "react-router-dom";
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Signup = () => {
@@ -39,53 +39,54 @@ const Signup = () => {
           },
         },
       );
+      toast.success("User Entry Saved in Database");
       console.log("Data: ", result);
-      toast.error("User Entry Saved in Database");
       setTimeout(() => {
         navigate("/login");
-      }, 5000);
+      }, 1000);
 
     } catch (error) {
+      toast.error("Failed to Register User");
       console.log("Failed to Register User: ", error);
     }
 
   };
 
   return (
-    <div className=" flex w-full items-center justify-center bg-[#f3f4f6]">
-      <form className="flex h-full w-full max-w-[420px] flex-col gap-3 bg-white p-5" onSubmit={registerUser}>
-        <h1 className="text-2xl font-black">Register</h1>
+    <div className="pt-5 pb-5 bg-stone-800 flex w-full items-center justify-center bg-[#f3f4f6]">
+      <form className="flex h-full w-full max-w-[420px] flex-col rounded-xl bg-stone-700 gap-3 bg-white p-5 " onSubmit={registerUser}>
+        <h1 className="text-2xl font-black text-white">Register</h1>
         <div className="flex items-start justify-center gap-4" >
           <div className="flex flex-col items-start justify-center">
-            <label className="font-bold" htmlFor="firstName">First Name</label>
+            <label className="font-bold text-white" htmlFor="firstName">First Name</label>
             <input
               type="text"
               id="firstName"
               name="firstName"
-              className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
+              className="w-full rounded-lg border bg-stone-600 border-gray-400 p-2 focus:border-blue-500  focus:outline-none text-gray-200"
               placeholder="John"
               onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className="flex flex-col items-start justify-center">
-            <label className="font-bold" htmlFor="lastName">Last Name</label>
+            <label className="font-bold text-white" htmlFor="lastName">Last Name</label>
             <input
               type="text"
               id="lastName"
               name="lastName"
-              className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
+              className="w-full rounded-lg border bg-stone-600 border-gray-400 p-2 focus:border-blue-500  focus:outline-none text-gray-200"
               placeholder="Doe"
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
         </div>
         <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userBio">Bio</label>
+          <label className="font-bold text-white" htmlFor="userBio">Bio</label>
           <textarea
             id="userBio"
             name="userBio"
             rows="3"
-            className="mt-1 w-full rounded-md border p-2 focus:border-blue-500 focus:outline-none"
+            className="mt-1 w-full rounded-md border bg-stone-600 border-gray-400 p-2 focus:border-blue-500 focus:outline-none text-gray-200"
             placeholder="Tell us something about yourself"
             required
             onChange={(e) => setUserBio(e.target.value)}
@@ -93,51 +94,51 @@ const Signup = () => {
 
         </div>
         <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userEmail">Email</label>
+          <label className="font-bold text-white" htmlFor="userEmail">Email</label>
           <input
             type="email"
             id="userEmail"
             name="userEmail"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
+            className="w-full rounded-lg border bg-stone-600 border-gray-400 p-2 focus:border-blue-500  focus:outline-none text-gray-200"
             placeholder="your.email@example.com"
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
         <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userMobile">Mobile Number</label>
+          <label className="font-bold text-white" htmlFor="userMobile">Mobile Number</label>
           <input
             type="number"
             id="userMobile"
             name="userMobile"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-            placeholder="0000000000"
+            className="w-full rounded-lg border bg-stone-600 border-gray-400 p-2 focus:border-blue-500  focus:outline-none text-gray-200"
+            placeholder="+91 90789XXXX"
             onChange={(e) => setUserMobile(e.target.value)}
           />
         </div>
         <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userName">UserName</label>
+          <label className="font-bold text-white" htmlFor="userName">UserName</label>
           <input
             type="text"
             id="userName"
             name="userName"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
+            className="w-full rounded-lg border bg-stone-600 border-gray-400 p-2 focus:border-blue-500  focus:outline-none text-gray-200"
             placeholder="johndoe123"
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
         <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userPassword">Password</label>
+          <label className="font-bold text-white" htmlFor="userPassword">Password</label>
           <input
             type="password"
             id="userPassword"
             name="userPassword"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
+            className="w-full rounded-lg border bg-stone-600 border-gray-400p-2 focus:border-blue-500  focus:outline-none text-gray-200"
             placeholder="*********"
             onChange={(e) => setUserPassword(e.target.value)}
           />
         </div>
         <div className="flex w-full flex-col items-center justify-center">
-          <div className="mb-4 grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 text-2xl font-black">
+          <div className="mb-4 grid h-[200px] w-[200px] bg-stone-600 border-gray-400 place-content-center overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 text-2xl font-black">
             {/* 200 x 200 */}
             {profilePreviewImage == "" ? (
               <p className="text-sm font-bold text-gray-500">Profile Image</p>
@@ -147,7 +148,7 @@ const Signup = () => {
           </div>
           <label
             htmlFor="dropzone-file"
-            className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
+            className="flex h-64 w-full cursor-pointer bg-stone-600 border-gray-400 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-stone-700"
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
@@ -190,9 +191,9 @@ const Signup = () => {
         <button className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600">
           Register
         </button>
-        <div className="text-sm">
+        <div className="text-sm text-gray-300">
           Already have an account?{" "}
-          <Link to="/login" className="font-bold text-blue-500 hover:underline">
+          <Link to="/login" className="font-bold text-gray-300 hover:underline">
             Login
           </Link>
         </div>

@@ -8,8 +8,11 @@ const Hero = () => {
 
 
   return (
-    <div className="bg-unsplashBgImage relative flex h-full items-center justify-center bg-cover bg-center">
-      <div className="absolute inset-0 bg-black bg-opacity-70" />
+      <div
+        className="bg-zinc-700 relative flex h-full items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: `url('/bg-image-notorite.jpg')` }}
+      >
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
       <div className="relative z-10 w-full max-w-[860px] text-center text-white">
         <h1 className="text-4xl font-black md:text-5xl">🌟NOTORITE🌟</h1>
         <p className="mt-5 text-sm font-light md:text-xl md:font-normal">

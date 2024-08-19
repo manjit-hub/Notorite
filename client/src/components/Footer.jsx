@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="flex items-center justify-center p-16">
+    <footer className="bg-stone-800 flex items-center justify-center p-16">
       <div className="flex h-full w-full flex-col gap-10 px-20 lg:flex-row lg:justify-between">
         <div className=" lg:w-[450px]">
-        <h2 className="relative mb-3 text-2xl font-black text-gray-500 before:absolute before:top-[30px] before:h-[3px] before:w-[50px] before:bg-blue-900">
+        <h2 className="relative mb-3 text-2xl font-black text-white before:absolute before:top-[30px] before:h-[3px] before:w-[200px] before:bg-yellow-400">
           About Us
         </h2>
           <p className="text-gray-400">
@@ -16,7 +16,7 @@ const Footer = () => {
           </p>
         </div>
         <div className="">
-          <h2 className="relative mb-3 text-2xl font-black text-gray-500 before:absolute before:top-[30px] before:h-[3px] before:w-[50px] before:bg-blue-900">
+          <h2 className="relative mb-3 text-2xl font-black text-white before:absolute before:top-[30px] before:h-[3px] before:w-[200px] before:bg-yellow-400">
             Quick Links
           </h2>
           <ul className="text-gray-400">
@@ -29,7 +29,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className="">
-          <h2 className="relative mb-3 text-2xl font-black text-gray-500 before:absolute before:top-[30px] before:h-[3px] before:w-[50px] before:bg-blue-900">
+          <h2 className="relative mb-3 text-2xl font-black text-white before:absolute before:top-[30px] before:h-[3px] before:w-[200px] before:bg-yellow-400">
             Contact Info
           </h2>
           <ul className="text-gray-400">

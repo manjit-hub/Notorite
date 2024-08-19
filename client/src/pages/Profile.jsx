@@ -25,7 +25,7 @@ const Profile = () => {
   const numberofFiles = userFiles.reduce((count, file) => count + 1, 0);
 
   return (
-    <div className="lg:h-heightWithoutNavbar flex flex-col items-center justify-center border border-slate-400 lg:flex-row">
+    <div className="bg-stone-800 lg:h-heightWithoutNavbar flex flex-col items-center justify-center border border-slate-400 lg:flex-row">
       <div className="flex w-full flex-col items-center justify-center border-[3px] border-slate-400 py-4 lg:h-full lg:w-[40%]">
         <div className="grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full bg-gray-400 text-2xl font-black">
           {/* 200 x 200 */}
