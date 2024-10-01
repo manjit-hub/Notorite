@@ -80,7 +80,7 @@ Deployed Link : https://notorite.vercel.app/
 
 4. Start the backend server:
    ```bash
-   npm index.js
+   node index.js
    ```
    or
    
