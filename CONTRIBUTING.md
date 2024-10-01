@@ -2,6 +2,8 @@
 
 **Notorite** is a MERN stack-based note-sharing platform where students can upload, share, and access notes globally. It functions as a digital library for students, making study materials accessible to all. This project is open for contributions as part of Hacktoberfest! 🚀
 
+Deployed Link : https://notorite.vercel.app/
+
 ---
 
 ## File Structure 📁
@@ -78,11 +80,11 @@
 
 4. Start the backend server:
    ```bash
-   npm index.js
+   node index.js
    ```
    or
-
-    ```bash
+   
+   ```bash
    nodemon dev
    ```
 
@@ -92,7 +94,7 @@
 
 1. Navigate to the **client** directory:
    ```bash
-   cd ../client
+   cd client
    ```
 2. Install client dependencies:
    ```bash
