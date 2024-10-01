@@ -2,6 +2,8 @@
 
 **Notorite** is a MERN stack-based note-sharing platform where students can upload, share, and access notes globally. It functions as a digital library for students, making study materials accessible to all. This project is open for contributions as part of Hacktoberfest! 🚀
 
+Deployed Link : https://notorite.vercel.app/
+
 ---
 
 ## File Structure 📁
