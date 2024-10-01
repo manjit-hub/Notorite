@@ -94,7 +94,7 @@ Deployed Link : https://notorite.vercel.app/
 
 1. Navigate to the **client** directory:
    ```bash
-   cd ../client
+   cd client
    ```
 2. Install client dependencies:
    ```bash
