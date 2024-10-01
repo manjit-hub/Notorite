@@ -12,11 +12,11 @@ dotenv.config();
 app.use(bodyParser.json());
 app.use(express.json());
 
+console.log(process.env.FRONTEND_URL)
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // Add Frontend URL
+    origin: `${process.env.FRONTEND_URL}`, // Add Frontend URL
     credentials: true // Allow cookies to be sent with requests
 }));
-
 DBConnection();
 
 
