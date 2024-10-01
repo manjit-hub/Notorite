@@ -80,6 +80,11 @@
    ```bash
    npm index.js
    ```
+   or
+
+    ```bash
+   nodemon dev
+   ```
 
 ---
 
