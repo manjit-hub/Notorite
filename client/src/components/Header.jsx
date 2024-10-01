@@ -24,7 +24,9 @@ const Navbar = () => {
       <div className="mx-5 flex w-full max-w-[1550px] items-center justify-between">
         {/* image section */}
         <div className="flex h-[120px] w-[120px] items-center justify-center overflow-hidden">
+          <Link to="/">
           <img src="/logo.png" alt="Logo" />
+          </Link>
         </div>
         {/* nav links  */}
         <GiHamburgerMenu className="text-xl md:hidden text-white" />
