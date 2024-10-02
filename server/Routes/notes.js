@@ -1,6 +1,7 @@
 import express from "express";
 import NotesController from "../Controllers/NotesController.js";
 import multer from "multer";
+import {protect} from '../Middleware/authMiddleware.js'
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -19,8 +20,8 @@ const upload = multer({
 });
 
 // Routes
-router.post("/upload", upload.single("file"), NotesController.uploadNote);
-router.get("/getFiles", NotesController.getNote);
-router.get("/getFiles/:id", NotesController.getNoteByID);
+router.post("/upload", protect, upload.single("file"), NotesController.uploadNote);
+router.get("/getFiles", protect ,NotesController.getNote);
+router.get("/getFiles/:id", protect, NotesController.getNoteByID);
 
 export default router;

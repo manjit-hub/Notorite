@@ -1,4 +1,5 @@
-import dotenv from "dotenv";
+import './constants.js' // for dotenv ONLY!
+
 import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
@@ -8,7 +9,7 @@ import noteRoutes from "./Routes/notes.js";
 import DBConnection from "./Database/db.js"
 
 const app = express();
-dotenv.config();
+
 app.use(bodyParser.json());
 app.use(express.json());
 

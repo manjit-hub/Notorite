@@ -1,68 +1,65 @@
-// Import statements (ESM syntax)
-import express from "express";
-import dotenv from "dotenv";
-import User from "../Models/User.js"; // Add `.js` extension
+import User from "../Models/User.js"; 
 import bcrypt from "bcrypt";
-import multer from "multer";
 import cloudinary from "cloudinary";
+import jwt from "jsonwebtoken"; 
+import { uploadToCloudinary } from "../Middleware/uploadImg.js";
 
-dotenv.config();
-
-const router = express.Router();
-
-const storage = multer.memoryStorage();
-const upload = multer({
-    storage: storage
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Signup Route
 const signup = async (req, res) => {
-    try {
-        const { firstName, lastName, userBio, userEmail, userMobile, userName } = req.body;
+    // console.log("Signup endpoint hit");
+    // console.log(req.body);
+    // console.log(req.file); 
 
-        // Check if user already exists
+    try {
+        const { firstName, lastName, userBio, userEmail, userName, userPassword } = req.body;
+
         const existingUser = await User.findOne({ userEmail });
         if (existingUser) {
-            return res.status(401).send("User Already Exists with this email");
+            return res.status(401).json({ error: "User Already Exists with this email" });
         }
 
-        // Check if a profile image is provided
-        if (!req.file) {
-            return res.status(400).json({ error: "No Profile Image Provided" });
-        }
+        // console.log("Starting image upload to Cloudinary");
+        const result = await uploadToCloudinary(req.file);
+        console.log(result);
 
-        const result = await cloudinary.uploader.upload(req.file.path);
-        // console.log(result);
-
-        const password = req.body.userPassword;
         const saltRounds = 10;
-
-        const salt = await bcrypt.genSalt(saltRounds);
-        const encryptedPassword = await bcrypt.hash(password, salt);
+        const encryptedPassword = await bcrypt.hash(userPassword, saltRounds);
 
         const newUser = new User({
             firstName,
             lastName,
             userBio,
             userEmail,
-            userMobile,
             userName,
             userPassword: encryptedPassword,
-            profileImage: result.secure_url
+            profileImage: result.secure_url,  
         });
 
         await newUser.save();
 
+        const token = jwt.sign(
+            { userId: newUser._id, userEmail: newUser.userEmail },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
         return res.status(200).json({
             status: "Ok",
-            user: newUser
+            user: newUser,
+            token: token
         });
 
     } catch (error) {
-        res.status(400).json({ error: error.message });
-        console.log(error);
+        console.error("Error in signup:", error); 
+        res.status(500).json({ error: error.message }); 
     }
 };
+
 
 // Login Route
 const login = async (req, res) => {
@@ -70,23 +67,30 @@ const login = async (req, res) => {
         const { userEmail, userPassword } = req.body;
 
         const user = await User.findOne({ userEmail });
-
-        if (user) {
-            const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
-            if (passwordMatch) {
-                return res.json(user);
-            } else {
-                console.log("password didn't matched!!");
-                return res.json({ status: "Error", getUser: false });
-            }
-        } else {
-            console.log("error found!!");
-            return res.json({ status: "Error", getUser: false });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
         }
 
+        const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+
+        const token = jwt.sign(
+            { userId: user._id, userEmail: user.userEmail },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({
+            status: "Ok",
+            user: user,
+            token: token,  
+        });
     } catch (error) {
         res.status(400).json({ error: error.message });
+        console.log(error);
     }
 };
 
-export default {login, signup}
+export default { signup, login };
