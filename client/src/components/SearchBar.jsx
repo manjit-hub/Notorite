@@ -40,17 +40,17 @@ const SearchBar = () => {
   };
 
   return (
-    <div className=" h-heightWithoutNavbar flex flex-col items-center justify-start p-4">
+    <div className="bg-stone-800 h-heightWithoutNavbar flex flex-col items-center justify-start p-4">
       <div className="flex w-full items-center justify-center">
-        <form className=" w-full max-w-[700px] rounded-xl border border-black bg-[#374151] p-4" onSubmit={handleSearch}>
-          <div className=" flex items-center justify-between">
+        <form className="bg-stone-700 w-full max-w-[700px] rounded-xl border border-black bg-[#374151] p-4" onSubmit={handleSearch}>
+          <div className="bg-stone-700 flex items-center justify-between">
             {/* serach logo  */}
             <FaSearch className="text-2xl text-white" />
             {/* input  */}
             <input
               type="search"
               placeholder="Seach for Notes"
-              className="rounded-xl p-2  ml-3 w-full bg-[#374151] text-white border-black"
+              className="rounded-xl p-2 bg-stone-600 ml-3 w-full bg-[#374151] text-white border-black"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
              
@@ -71,7 +71,7 @@ const SearchBar = () => {
         .map((item, i) => (
           <div
             key={i}
-            className="flex w-full  items-center justify-between rounded-lg bg-[#374151] border border-transparent px-4 py-2 text-white"
+            className="flex w-full bg-stone-500 items-center justify-between rounded-lg bg-[#374151] border border-transparent px-4 py-2 text-white"
           >
             <p className="">
               <span className="font-bold">File Name :</span> <span>File Name</span>
