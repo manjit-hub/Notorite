@@ -5,8 +5,12 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData, setUserData } from "../Redux/slices/user-slice";
-
+import { Switch, useColorMode } from "theme-ui";
+import { useState } from "react";
 const Navbar = () => {
+
+  const [colorMode, setColorMode] = useColorMode();
+  const [state, setState] = useState("dark");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,10 +35,10 @@ const Navbar = () => {
         {/* nav links  */}
         <GiHamburgerMenu className="text-xl md:hidden text-white" />
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
-          <Link to="/" className="text-white">
+          <Link to="/" className="">
             Home
           </Link>
-          <Link to="/about" className="text-white">
+          <Link to="/about" className="">
             About
           </Link>
 
@@ -71,7 +75,15 @@ const Navbar = () => {
             </>
 
           )}
-
+                    <div>
+  <div>{state === "light" ? <div> Dark</div> : <div>Light</div>}</div>
+  <Switch
+    onClick={() => {
+      setColorMode(colorMode === "dark" ? "light" : "dark");
+      setState(colorMode === "dark" ? "light" : "dark");
+    }}
+  />
+</div>
         </div>
       </div>
     </header>

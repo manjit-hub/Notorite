@@ -3,6 +3,7 @@ import { Link, useNavigate  } from "react-router-dom";
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { AiOutlineEye,AiOutlineEyeInvisible  } from "react-icons/ai";
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -14,6 +15,7 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  let [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const registerUser = async (e) => {
@@ -53,8 +55,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="pt-5 pb-5 bg-stone-800 flex w-full items-center justify-center bg-[#f3f4f6]">
-      <form className="flex h-full w-full max-w-[420px] flex-col rounded-xl bg-stone-700 gap-3 bg-white p-5 " onSubmit={registerUser}>
+    <div className="pt-5 pb-5 flex w-full items-center justify-center">
+      <form className="flex h-full w-full max-w-[420px] flex-col rounded-xl bg-stone-700 gap-3  p-5 " onSubmit={registerUser}>
         <h1 className="text-2xl font-black text-white">Register</h1>
         <div className="flex items-start justify-center gap-4" >
           <div className="flex flex-col items-start justify-center">
@@ -126,30 +128,39 @@ const Signup = () => {
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
-        <div className="flex flex-col items-start justify-center">
+        <div className="flex flex-col items-start justify-center relative">
           <label className="font-bold text-white" htmlFor="userPassword">Password</label>
           <input
-            type="password"
+            type={showPassword ? ("text") : ("password")}
             id="userPassword"
             name="userPassword"
             className="w-full rounded-lg border bg-stone-600 border-gray-400p-2 focus:border-blue-500  focus:outline-none text-gray-200"
             placeholder="*********"
             onChange={(e) => setUserPassword(e.target.value)}
           />
+          <span className="cursor-pointer absolute right-3 top-[25px] "
+            onClick={() => {
+              setShowPassword((prev) => !prev);
+            }}
+          >
+            {showPassword ? (<AiOutlineEye fontSize={24} fill='#AFB2BF'/>) :( <AiOutlineEyeInvisible fontSize={24} fill='#AFB2BF'/>)}
+          </span>
         </div>
         <div className="flex w-full flex-col items-center justify-center">
+          <label htmlFor="dropzone-file" className="cursor-pointer">
           <div className="mb-4 grid h-[200px] w-[200px] bg-stone-600 border-gray-400 place-content-center overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 text-2xl font-black">
             {/* 200 x 200 */}
             {profilePreviewImage == "" ? (
               <p className="text-sm font-bold text-gray-500">Profile Image</p>
+
             ) : (
               <img src={profilePreviewImage} alt="" className="" />
             )}
-          </div>
-          <label
+          </div></label>
+          {/* <label
             htmlFor="dropzone-file"
             className="flex h-64 w-full cursor-pointer bg-stone-600 border-gray-400 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-stone-700"
-          >
+          > */}
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
                 className="mb-4 h-8 w-8 text-gray-500 "
@@ -186,7 +197,7 @@ const Signup = () => {
                 className="hidden"
               />
             </div>
-          </label>
+          {/* </label> */}
         </div>
         <button className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600">
           Register
