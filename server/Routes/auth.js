@@ -9,7 +9,7 @@ const storage = multer.memoryStorage()
 
 const upload = multer({ storage: storage, dest: 'uploads/' });
 
-router.post("/signup", upload.single("profileImage"),  authController.signup);
+router.post("/signup", upload.single("profileImage"), authController.signup);
 router.post("/login", authController.login);
 
 export default router;
