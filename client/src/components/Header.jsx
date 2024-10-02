@@ -46,10 +46,10 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <Link to="/search">
-                <FaSearch className="text-xl text-blue-100" />
+                <FaSearch className="text-xl " />
               </Link>
               <Link to="/upload">
-                <MdOutlineFileUpload className="text-[24px] text-blue-100" />
+                <MdOutlineFileUpload className="text-[24px] " />
               </Link>
               <Link to="/profile">
               <button className="rounded-xl bg-sky-500 px-5 py-2 font-semibold text-white hover:bg-sky-600">
