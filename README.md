@@ -75,6 +75,7 @@ Deployed Link : https://notorite.vercel.app/
    CLOUDINARY_URL = cloudinary://your-cloudinary-url
    FRONTEND_URL = http://localhost:5173
    PORT = 8000
+   JWT_SECRET = your_jwt_secret_key
    ```
    > **Note**: Replace the above credentials with your own MongoDB Atlas and Cloudinary account details.
 
