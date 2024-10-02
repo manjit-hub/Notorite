@@ -59,7 +59,7 @@ const Faq = () => {
               <h1 className="mb-2 text-lg font-medium sm:text-xl">
                 {item.question}
               </h1>
-              <p className="border-b pb-2 text-sm  sm:text-base">
+              <p className="border-b pb-2 text-sm text-gray-700 sm:text-base">
                 {item.answer}
               </p>
             </div>

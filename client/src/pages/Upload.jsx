@@ -3,7 +3,7 @@ import UploadNote from "../components/UploadNote";
 
 const Upload = () => {
   return (
-    <div className="h-heightWithoutNavbar flex items-center justify-center">
+    <div className="bg-stone-800 h-heightWithoutNavbar flex items-center justify-center">
       <UploadNote />
     </div>
   );

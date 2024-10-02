@@ -13,11 +13,8 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const App = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-
-
 
   return (
     <Router>
@@ -41,7 +38,6 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
         </Routes>
-
       </div>
       <ToastContainer />
     </Router >
