@@ -5,6 +5,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData, setUserData } from "../Redux/slices/user-slice";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
 
@@ -71,7 +72,7 @@ const Navbar = () => {
             </>
 
           )}
-
+          <ThemeToggle />
         </div>
       </div>
     </header>

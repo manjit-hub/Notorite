@@ -12,34 +12,37 @@ import Signup from "./pages/Signup";
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from "./components/provider/ThemeProvider";
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
     <Router>
-      <Header />
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Header />
 
-      <div>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          {isAuthenticated ? (
-            <>
-              <Route path="/upload" element={<Upload />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/search" element={<Search />} />
-            </>
-          ) : (
-            <>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-            </>
-          )}
-          <Route path="/about" element={<About />} />
-          <Route path="/faq" element={<Faq />} />
-        </Routes>
-      </div>
-      <ToastContainer />
+        <div>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            {isAuthenticated ? (
+              <>
+                <Route path="/upload" element={<Upload />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/search" element={<Search />} />
+              </>
+            ) : (
+              <>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+              </>
+            )}
+            <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<Faq />} />
+          </Routes>
+        </div>
+        <ToastContainer />
+      </ThemeProvider>
     </Router >
   );
 };
