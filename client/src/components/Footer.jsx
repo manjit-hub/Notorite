@@ -19,7 +19,7 @@ const Footer = () => {
           <h2 className="relative mb-3 text-2xl font-black before:absolute before:top-[30px] before:h-[3px] before:w-[200px] before:bg-yellow-400">
             Quick Links
           </h2>
-          <ul className="text-gray-400">
+          <ul className="text-gray-600 dark:text-gray-400">
             <li className="mb-1">
               <Link to="/about">About</Link>
             </li>
@@ -32,7 +32,7 @@ const Footer = () => {
           <h2 className="relative mb-3 text-2xl font-black before:absolute before:top-[30px] before:h-[3px] before:w-[200px] before:bg-yellow-400">
             Contact Info
           </h2>
-          <ul className="text-gray-400">
+          <ul className="text-gray-600 dark:text-gray-400">
             <li className="mb-1">
               <Link to="/about">+91 9078902XXX</Link>
             </li>

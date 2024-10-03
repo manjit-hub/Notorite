@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,48 +22,49 @@ const Login = () => {
         userPassword,
       };
       const result = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, user);
-      if(result.data.status==="Error")
-      {
-        toast.error("wrong credentials");
-        console.log("Error while Log in !!")
-      }
-      else{
-        toast.success("User Logged in Successfully!");
-        console.log("User Logged in Successfully: ", result);
+      if (result.data.status === "Error") {
+        toast.error("Wrong credentials");
+        console.log("Error while logging in!");
+      } else {
+        toast.success("User logged in successfully!");
+        console.log("User logged in successfully: ", result);
         dispatch(setUserData(result.data));
         setTimeout(() => {
           navigate("/");
         }, 1000);
       }
     } catch (error) {
-      toast.error("User Logged in failed! ");
-      console.log("Cannot Login the User: ", error);
+      toast.error("Login failed!");
+      console.log("Cannot log in the user: ", error);
     }
   };
 
   return (
-    <div className="bg-stone-800 h-heightWithoutNavbar flex w-full items-center justify-center p-5">
-      <form className="flex w-full max-w-[420px] flex-col gap-4 rounded-xl bg-stone-700 gap-3 p-5 shadow-xl " onSubmit={loginUser}>
-        <h1 className="text-2xl font-bold text-white">Login</h1>
+    <div className="h-heightWithoutNavbar flex w-full items-center justify-center p-5 bg-gray-100 dark:bg-stone-800">
+      <form
+        className="flex w-full max-w-[420px] flex-col gap-4 rounded-xl bg-gray-200 dark:bg-stone-700 p-5 shadow-xl"
+        onSubmit={loginUser}
+      >
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Login</h1>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col items-start justify-center">
-            <label className="font-bold text-white" htmlFor="userEmail">Email</label>
+            <label className="font-bold text-gray-900 dark:text-white" htmlFor="userEmail">Email</label>
             <input
               type="email"
               id="userEmail"
               name="userEmail"
-              className="w-full rounded-lg border bg-stone-700 border-gray-400 p-2 focus:ring focus:ring-blue-500 text-gray-200"
+              className="w-full rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-700 p-2 focus:ring focus:ring-blue-500 text-gray-900 dark:text-gray-200"
               placeholder="your.email@example.com"
               onChange={(e) => setUserEmail(e.target.value)}
             />
           </div>
-          <div className="flex flex-col items-start justify-center ">
-            <label className="font-bold text-white" htmlFor="userPassword">Password</label>
+          <div className="flex flex-col items-start justify-center">
+            <label className="font-bold text-gray-900 dark:text-white" htmlFor="userPassword">Password</label>
             <input
               type="password"
               id="userPassword"
               name="userPassword"
-              className="w-full rounded-lg border bg-stone-700 border-gray-400 p-2 focus:ring focus:ring-blue-500 text-gray-200"
+              className="w-full rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-700 p-2 focus:ring focus:ring-blue-500 text-gray-900 dark:text-gray-200"
               placeholder="*********"
               onChange={(e) => setUserPassword(e.target.value)}
             />
@@ -73,10 +73,10 @@ const Login = () => {
         <button className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600" type="submit">
           Log In
         </button>
-        <div className="flex items-center justify-between text-sm text-gray-300">
+        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
           <p className="">New to Notorite?</p>
           <Link to="/signup">
-            <p className="font-bold text-gray-300 hover:underline">Create an account</p>
+            <p className="font-bold hover:underline">Create an account</p>
           </Link>
         </div>
       </form>

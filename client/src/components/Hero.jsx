@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-
 
   return (
       <div
@@ -29,16 +27,16 @@ const Hero = () => {
           "
           >
             {isAuthenticated ? (
-              <Link to="/search" className="mr-10 rounded-xl bg-white px-6 py-3 text-lg font-bold text-blue-500 hover:bg-gray-100">Get Started</Link>
+              <Link to="/search" className="mr-10 rounded-xl bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600 px-6 py-3 text-lg font-bold">Get Started</Link>
             ) : (
               <>
                 <Link to="/login">
-                  <button className="rounded-xl bg-blue-800 px-7 py-4 font-black text-blue-100 ">
+                  <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
                     Login
                   </button>
                 </Link>
                 <Link to="/signup">
-                  <button className="rounded-xl bg-blue-800 px-7 py-4 font-black text-blue-100 ">
+                  <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
                     Signup
                   </button>
                 </Link>

@@ -49,17 +49,18 @@ const Faq = () => {
         "Each document on Notorite comes with a feedback and rating section. You can share your thoughts, ask questions, or provide feedback on the quality of the material.",
     },
   ];
+
   return (
-    <div className="lg:h-heightWithoutNavbar grid place-content-center">
+    <div className="lg:h-heightNavbar grid place-content-center bg-gray-100 dark:bg-stone-800 p-5">
       <div className="mx-auto max-w-[1550px] px-5 py-8">
-        <h1 className="mb-6 text-3xl font-black">Frequently Asked Questions</h1>
+        <h1 className="mb-6 text-3xl font-black text-gray-900 dark:text-white">Frequently Asked Questions</h1>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {faqs.map((item, i) => (
-            <div key={i} className="">
-              <h1 className="mb-2 text-lg font-medium sm:text-xl">
+            <div key={i} className="p-4 bg-gray-200 dark:bg-stone-700 rounded-lg shadow-lg">
+              <h1 className="mb-2 text-lg font-medium text-gray-900 dark:text-white sm:text-xl">
                 {item.question}
               </h1>
-              <p className="border-b pb-2 text-sm text-gray-700 sm:text-base">
+              <p className="text-sm text-gray-700 dark:text-gray-200 sm:text-base">
                 {item.answer}
               </p>
             </div>

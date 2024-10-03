@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
+import Footer from "./components/Footer";
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from "./components/provider/ThemeProvider";
 
