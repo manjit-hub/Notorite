@@ -9,7 +9,7 @@ const Hero = () => {
 
   return (
       <div
-        className="bg-zinc-700 relative flex h-full items-center justify-center bg-cover bg-center"
+        className="relative flex h-full items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: `url('/bg-image-notorite.jpg')` }}
       >
       <div className="absolute inset-0 bg-black bg-opacity-40" />

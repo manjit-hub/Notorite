@@ -32,10 +32,10 @@ const Navbar = () => {
         {/* nav links  */}
         <GiHamburgerMenu className="text-xl md:hidden text-white" />
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
-          <Link to="/" className="text-white">
+          <Link to="/">
             Home
           </Link>
-          <Link to="/about" className="text-white">
+          <Link to="/about">
             About
           </Link>
 
