@@ -1,14 +1,15 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { setUserData } from "../Redux/slices/user-slice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { useAxios } from "../hooks/useAxios";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const axios = useAxios();
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -21,13 +22,13 @@ const Login = () => {
         userEmail,
         userPassword,
       };
-      const result = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, user);
-      if (result.data.status === "Error") {
-        toast.error("Wrong credentials");
-        console.log("Error while logging in!");
-      } else {
-        toast.success("User logged in successfully!");
-        console.log("User logged in successfully: ", result);
+      const result = await axios.post('/auth/login', user);
+      if(result.data.status==="Error") {
+        toast.error("wrong credentials");
+        console.log("Error while Log in !!")
+      } else{
+        toast.success("User Logged in Successfully!");
+        console.log("User Logged in Successfully: ", result);
         dispatch(setUserData(result.data));
         setTimeout(() => {
           navigate("/");

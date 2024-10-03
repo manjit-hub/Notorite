@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import Footer from "./components/Footer";
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingScreen from "./components/LoadingScreen";
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -40,6 +41,7 @@ const App = () => {
         </Routes>
       </div>
       <ToastContainer />
+      <LoadingScreen />
       <Footer />
     </Router >
   );

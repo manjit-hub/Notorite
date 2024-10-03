@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useAxios } from "../hooks/useAxios";
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,13 +9,14 @@ const SearchBar = () => {
   const [searchStatus, setSearchStatus] = useState("");
 
   const user = useSelector((state) => state.user.userData);
+  const axios = useAxios();
   const username = user.userName;
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     try {
-      const notes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/getFiles`, {
+      const notes = await axios.get('/notes/getFiles', {
         params: {
           title: searchQuery,
         },
