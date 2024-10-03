@@ -10,6 +10,14 @@ export default {
         unsplashBgImage: "url('/img/bgImg.jpg')",
       },
     },
+    animation: {
+      spinner_normal: "spinner 1s infinite linear",
+    },
+    keyframes: {
+      spinner: {
+        "100%": { transform: "rotate(1turn)" },
+      }
+    }
   },
   plugins: [],
 };

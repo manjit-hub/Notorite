@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import { useAxios } from "../hooks/useAxios";
 
 const Profile = () => {
 
   const user = useSelector((state) => state.user.userData);
+  const axios = useAxios();
 
   const [userFiles, setUserFiles] = useState([]);
 
@@ -13,7 +14,7 @@ const Profile = () => {
 
   useEffect(() => {
     const getUserFiles = async () => {
-      const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/getFiles/${userId}`);
+      const result = await axios.get(`/notes/getFiles/${userId}`);
       console.log(result.data);
       setUserFiles(result.data.data);
     };
@@ -65,7 +66,7 @@ const Profile = () => {
               href={`${import.meta.env.VITE_BACKEND_URL}/files/${file.files}`}
               key={file._id}
               className="mb-3 flex h-[35px] max-w-[250px] items-center justify-between gap-10 rounded-xl border border-black px-4 text-blue-100"
-              target="_blank"
+              target="_blank" rel="noreferrer"
             >
               <p className="font-semibold text-blue-100"> {file.fileName}</p>
             </a>

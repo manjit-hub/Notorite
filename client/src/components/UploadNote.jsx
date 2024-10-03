@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { useAxios } from "../hooks/useAxios";
 
 const UploadNote = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +11,7 @@ const UploadNote = () => {
   const [file, setFile] = useState(null); 
 
   const user = useSelector((state) => state.user.userData);
+  const axios = useAxios();
   const userId = user._id;
 
   const submitFile = async (e) => {
@@ -27,7 +28,7 @@ const UploadNote = () => {
       console.log(formData);
 
       const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/notes/upload`,
+        '/notes/upload',
         formData,
         {
           headers: {
