@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
+import Footer from "./components/Footer";
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from "./components/LoadingScreen";
 
@@ -20,7 +21,6 @@ const App = () => {
   return (
     <Router>
       <Header />
-
       <div>
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -42,6 +42,7 @@ const App = () => {
       </div>
       <ToastContainer />
       <LoadingScreen />
+      <Footer />
     </Router >
   );
 };
