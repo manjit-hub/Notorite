@@ -34,6 +34,7 @@ const Navbar = () => {
         {/* nav links */}
         <GiHamburgerMenu className="text-xl md:hidden text-gray-800 dark:text-white" />
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
+          <ThemeToggleBtn />
           <Link to="/" className="text-gray-800 dark:text-white">
             Home
           </Link>
@@ -76,7 +77,7 @@ const Navbar = () => {
               </Link>
             </>
           )}
-          <ThemeToggleBtn />
+          
         </div>
       </div>
     </header>
