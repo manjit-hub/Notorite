@@ -42,7 +42,6 @@ const App = () => {
       </div>
       <ToastContainer />
       <LoadingScreen />
-      <Footer />
     </Router >
   );
 };
