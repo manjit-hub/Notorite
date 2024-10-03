@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useAxios } from "../hooks/useAxios";
+import GoogleImage from '../../public/7123025_logo_google_g_icon.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ const Login = () => {
         userPassword,
       };
       const result = await axios.post('/auth/login', user);
-      if(result.data.status==="Error") {
+      if (result.data.status === "Error") {
         toast.error("wrong credentials");
         console.log("Error while Log in !!")
-      } else{
+      } else {
         toast.success("User Logged in Successfully!");
         console.log("User Logged in Successfully: ", result);
         dispatch(setUserData(result.data));
@@ -43,7 +44,7 @@ const Login = () => {
   return (
     <div className="h-heightWithoutNavbar flex w-full items-center justify-center p-5 bg-gray-100 dark:bg-stone-800">
       <form
-        className="flex w-full max-w-[420px] flex-col gap-4 rounded-xl bg-gray-200 dark:bg-stone-700 p-5 shadow-xl"
+        className="flex w-full max-w-[420px] flex-col gap-4 rounded-xl bg-gray-200 dark:bg-stone-700 p-5 shadow-xl justify-between"
         onSubmit={loginUser}
       >
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Login</h1>
@@ -73,6 +74,17 @@ const Login = () => {
         </div>
         <button className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600" type="submit">
           Log In
+        </button>
+        <button
+          type="button"
+          className="w-full flex items-center justify-center bg-white text-black border border-gray-300 px-4 py-2 rounded-lg shadow hover:shadow-lg transition duration-300 ease-in-out hover:bg-gray-100"
+        >
+          <img
+            src={GoogleImage}
+            alt="Google Logo"
+            className="mr-3 w-6 h-6"
+          />
+          <span className="text-sm font-medium">Sign in with Google</span>
         </button>
         <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
           <p className="">New to Notorite?</p>

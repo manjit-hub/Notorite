@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useAxios } from "../hooks/useAxios";
+import GoogleImage from "../../public/7123025_logo_google_g_icon.png";
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -188,6 +189,17 @@ const Signup = () => {
 
         <button className="rounded-lg bg-sky-600 px-5 py-2 font-bold text-white hover:bg-blue-600">
           Register
+        </button>
+        <button
+          type="button"
+          className="w-full flex items-center justify-center bg-white text-black border border-gray-300 px-4 py-2 rounded-lg shadow hover:shadow-lg transition duration-300 ease-in-out hover:bg-gray-100"
+        >
+          <img
+            src={GoogleImage}
+            alt="Google Logo"
+            className="mr-3 w-6 h-6"
+          />
+          <span className="text-sm font-medium">Sign in with Google</span>
         </button>
         <div className="text-sm text-gray-600 dark:text-gray-300">
           Already have an account?{" "}

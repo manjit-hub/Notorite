@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useAxios } from "../hooks/useAxios";
+import DefaultPfp from '../../public/gmail.png';
 
 const Profile = () => {
   const user = useSelector((state) => state.user.userData);
@@ -27,7 +28,11 @@ const Profile = () => {
     <div className="bg-gray-100 dark:bg-gray-900 lg:h-heightWithoutNavbar flex flex-col items-center justify-center border border-gray-300 dark:border-gray-700 lg:flex-row">
       <div className="flex w-full flex-col items-center justify-center border-[3px] border-gray-300 dark:border-gray-700 py-4 lg:h-full lg:w-[40%]">
         <div className="grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full bg-gray-300 dark:bg-gray-700 text-2xl font-black">
-          <img src={user.profileImage} alt="userprofile" className="" />
+          <img
+            src={user.profileImage ? user.profileImage : DefaultPfp}
+            alt="userprofile"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="my-2 flex flex-col items-center justify-center">
           <h2 className="text-2xl font-black text-gray-800 dark:text-gray-200">
