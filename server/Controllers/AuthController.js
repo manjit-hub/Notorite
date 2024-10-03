@@ -23,7 +23,7 @@ const signup = async (req, res) => {
             return res.status(401).json({ error: "User Already Exists with this email" });
         }
 
-        // console.log("Starting image upload to Cloudinary");
+        console.log("Starting image upload to Cloudinary");
         const result = await uploadToCloudinary(req.file);
         console.log(result);
 
@@ -55,7 +55,8 @@ const signup = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error in signup:", error); 
+        console.log(error);
+        console.error("Error in signup:", error);
         res.status(500).json({ error: error.message }); 
     }
 };
