@@ -33,7 +33,7 @@ const uploadNote = async (req, res) => {
 
         await newFile.save();
         res.send({ status: "Ok" });
-
+        console.log("File uploaded successfully" + newFile);
     } catch (error) {
         res.status(400).json({ error: error.message });
         console.log(error);
