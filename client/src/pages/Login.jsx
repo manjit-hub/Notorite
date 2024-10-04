@@ -25,10 +25,10 @@ const Login = () => {
         userPassword,
       };
       const result = await axios.post('/auth/login', user);
-      if(result.data.status==="Error") {
+      if (result.data.status === "Error") {
         toast.error("wrong credentials");
         console.log("Error while Log in !!")
-      } else{
+      } else {
         toast.success("User Logged in Successfully!");
         console.log("User Logged in Successfully: ", result);
         dispatch(setUserData(result.data));
@@ -104,7 +104,28 @@ const Login = () => {
 
       {showForgotPasswordModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg max-w-sm w-full">
+          <div className="bg-white p-5 rounded-lg shadow-lg max-w-sm w-full relative">
+
+            <button
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowForgotPasswordModal(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
             <h2 className="text-lg font-bold mb-3">Forgot Password</h2>
             <input
               type="email"
@@ -113,12 +134,17 @@ const Login = () => {
               value={forgotEmail}
               onChange={(e) => setForgotEmail(e.target.value)}
             />
-            <div className="flex justify-end gap-2">
-              <button className="rounded-lg bg-gray-500 text-white px-4 py-2" onClick={() => setShowForgotPasswordModal(false)}>Cancel</button>
-              <button className="rounded-lg bg-blue-500 px-5 py-2 text-white hover:bg-blue-600" onClick={handleForgotPassword}>Send Reset Link</button>
+            <div className="flex justify-end">
+              <button
+                className="w-full rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600"
+                onClick={handleForgotPassword}
+              >
+                Send Reset Link
+              </button>
             </div>
           </div>
         </div>
+
       )}
 
       <ToastContainer />

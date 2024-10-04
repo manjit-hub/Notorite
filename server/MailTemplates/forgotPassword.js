@@ -27,8 +27,10 @@ const forgotPasswordTemplate = (name, link) => {
                 }
 
                 img {
+                    display: block;
                     max-width: 35%;
                     height: auto;
+                    margin: 0 auto;
                 }
 
                 h1 {
@@ -61,7 +63,7 @@ const forgotPasswordTemplate = (name, link) => {
         </head>
 
         <body>
-            <img src="https://cdn.pixabay.com/animation/2024/04/22/04/35/04-35-34-864_512.gif" />
+            <img src="https://cdn.pixabay.com/animation/2024/04/22/04/35/04-35-34-864_512.gif" alt="Reset Password Animation" />
             <div class="container">
                 <h1>Forget your Notorite password?</h1>
                 <p>Dear ${name},</p>
@@ -74,7 +76,7 @@ const forgotPasswordTemplate = (name, link) => {
             <div class="contact">
                 <p>This link will expire in 24 hours. If you continue to have problems please feel free to contact us at <span style="text-decoration: underline">helpnotorite@gmail.com</span>.</p>
             </div>
-        </body>
+        </body>s
 
         </html>
     `;
