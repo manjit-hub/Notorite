@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { setUserData } from "../Redux/slices/user-slice";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,9 +6,8 @@ import { useAxios } from "../hooks/useAxios";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const axios = useAxios();
-  const { token } = useParams(); // Get the token from URL parameters
+  const { token } = useParams();
 
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

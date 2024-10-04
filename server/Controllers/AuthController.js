@@ -119,7 +119,7 @@ const forgotPassword = async (req, res) => {
 
         await passwordResetEntry.save();
 
-        const resetUrl = `http://${req.headers.host}/reset-password/${resetToken}`;
+        const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
         const htmlContent = forgotPasswordTemplate(user.firstName, resetUrl);
 
         await sendMail(user.userEmail, 'Reset Your Password and Get Back Into Your Notorite Account', htmlContent);
