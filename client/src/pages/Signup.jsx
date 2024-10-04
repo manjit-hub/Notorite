@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate  } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { useAxios } from "../hooks/useAxios";
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -14,7 +14,9 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const registerUser = async (e) => {
     try {
@@ -31,7 +33,7 @@ const Signup = () => {
       formData.append("profileImage", profileImage);
 
       const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+        '/auth/signup',
         formData,
         {
           headers: {

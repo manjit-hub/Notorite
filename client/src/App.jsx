@@ -9,10 +9,12 @@ import Faq from "./pages/Faq";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ResetPassword from "./pages/ResetPassword";
 import { useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import Footer from "./components/Footer";
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingScreen from "./components/LoadingScreen";
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -37,10 +39,11 @@ const App = () => {
           )}
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </div>
       <ToastContainer />
-      <Footer />
+      <LoadingScreen />
     </Router >
   );
 };

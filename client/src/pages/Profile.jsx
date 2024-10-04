@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import { useAxios } from "../hooks/useAxios";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.userData);
+  const axios = useAxios();
+
   const [userFiles, setUserFiles] = useState([]);
   const userId = user._id;
 
   useEffect(() => {
     const getUserFiles = async () => {
-      const result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/getFiles/${userId}`);
+      const result = await axios.get(`/notes/getFiles/${userId}`);
       console.log(result.data);
       setUserFiles(result.data.data);
     };
