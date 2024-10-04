@@ -103,11 +103,10 @@ const Login = () => {
       </form>
 
       {showForgotPasswordModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg max-w-sm w-full relative">
-
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 dark:bg-opacity-75 z-50">
+          <div className="bg-white dark:bg-stone-800 p-5 rounded-lg shadow-lg max-w-sm w-full relative">
             <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200"
               onClick={() => setShowForgotPasswordModal(false)}
             >
               <svg
@@ -126,10 +125,10 @@ const Login = () => {
               </svg>
             </button>
 
-            <h2 className="text-lg font-bold mb-3">Forgot Password</h2>
+            <h2 className="text-lg font-bold mb-3 text-gray-900 dark:text-white">Forgot Password</h2>
             <input
               type="email"
-              className="w-full border border-gray-300 p-2 rounded mb-3"
+              className="w-full border border-gray-300 dark:border-gray-600 p-2 rounded mb-3 bg-gray-100 dark:bg-stone-700 text-gray-900 dark:text-gray-200"
               placeholder="Enter your email"
               value={forgotEmail}
               onChange={(e) => setForgotEmail(e.target.value)}
@@ -144,7 +143,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-
       )}
 
       <ToastContainer />

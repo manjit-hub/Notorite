@@ -190,7 +190,7 @@ const Signup = () => {
                 Verify OTP
               </button>
             </div>
-         )}
+          )}
         </div>
 
 
