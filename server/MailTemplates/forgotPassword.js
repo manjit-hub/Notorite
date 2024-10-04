@@ -74,7 +74,7 @@ const forgotPasswordTemplate = (name, link) => {
                 <p>If you didn't request to change your password, simply ignore this email.</p>
             </div>
             <div class="contact">
-                <p>This link will expire in 24 hours. If you continue to have problems please feel free to contact us at <span style="text-decoration: underline">helpnotorite@gmail.com</span>.</p>
+                <p>This link will expire in 2 hours. If you continue to have problems please feel free to contact us at <span style="text-decoration: underline">helpnotorite@gmail.com</span>.</p>
             </div>
         </body>s
 
