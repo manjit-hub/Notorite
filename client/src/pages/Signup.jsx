@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useAxios } from "../hooks/useAxios";
@@ -18,9 +18,18 @@ const Signup = () => {
   const navigate = useNavigate();
   const axios = useAxios();
 
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+
   const registerUser = async (e) => {
     try {
       e.preventDefault();
+
+      if (!isEmailVerified) {
+        toast.error("Please verify your email before registering.");
+        return;
+      }
 
       const formData = new FormData();
       formData.append("firstName", firstName);
@@ -50,6 +59,38 @@ const Signup = () => {
     } catch (error) {
       toast.error("Failed to Register User");
       console.log("Failed to Register User: ", error);
+    }
+  };
+
+  const handleSendOTP = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/auth/send-otp', { userEmail });
+      console.log('OTP sent response:', response.data);
+      setOtpSent(true);
+      toast.success("OTP Sent Successfully!");
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      toast.error("Failed to Send OTP. Please try again.");
+    }
+  };
+
+
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    console.log('Verifying OTP: ', { userEmail, otp });
+    try {
+      const response = await axios.post('/auth/verify-otp', { userEmail, otp });
+      console.log('OTP verification response:', response.data);
+      setIsEmailVerified(true);
+      toast.success('Email verified successfully!');
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      if (error.response) {
+        toast.error('Invalid OTP. Please check your OTP and try again.');
+      } else {
+        toast.error('OTP Verification failed. Please try again.');
+      }
     }
   };
 
@@ -96,17 +137,64 @@ const Signup = () => {
             onChange={(e) => setUserBio(e.target.value)}
           ></textarea>
         </div>
+
         <div className="flex flex-col items-start justify-center">
           <label className="font-bold text-gray-900 dark:text-white" htmlFor="userEmail">Email</label>
-          <input
-            type="email"
-            id="userEmail"
-            name="userEmail"
-            className="w-full rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-600 p-2 focus:border-blue-500 focus:outline-none text-gray-900 dark:text-gray-200"
-            placeholder="your.email@example.com"
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
+          <div className="flex items-center w-full">
+            <input
+              type="email"
+              id="userEmail"
+              name="userEmail"
+              className="w-full rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-600 p-2 focus:border-blue-500 focus:outline-none text-gray-900 dark:text-gray-200"
+              placeholder="your.email@example.com"
+              onChange={(e) => {
+                setUserEmail(e.target.value)
+                setIsEmailVerified(false)
+                setOtpSent(false)
+              }}
+            />
+
+            {isEmailVerified ? (
+              <button
+                className={`ml-2 rounded-lg bg-green-600 px-5 py-2 font-bold text-white cursor-not-allowed`}
+                disabled
+              >
+                Verified
+              </button>
+            ) : (
+              <button
+                className={`ml-2 rounded-lg bg-sky-600 px-5 py-2 font-bold text-white hover:bg-blue-600 ${!userEmail ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={handleSendOTP}
+                disabled={!userEmail}
+              >
+                Verify
+              </button>
+            )}
+
+          </div>
+
+          {/* OTP Input and Button */}
+          {otpSent && !isEmailVerified && (
+            <div className="flex items-center justify-center w-full mt-2">
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter OTP"
+                className="rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-600 p-2 focus:border-blue-500 focus:outline-none text-gray-900 dark:text-gray-200"
+              />
+              <button
+                onClick={handleVerifyOTP}
+                className="ml-2 rounded-lg bg-sky-600 px-5 py-2 font-bold text-white hover:bg-blue-600"
+              >
+                Verify OTP
+              </button>
+            </div>
+         )}
         </div>
+
+
+
         <div className="flex flex-col items-start justify-center">
           <label className="font-bold text-gray-900 dark:text-white" htmlFor="userMobile">Mobile Number</label>
           <input
