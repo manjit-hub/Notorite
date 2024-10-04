@@ -11,5 +11,7 @@ const upload = multer({ storage: storage, dest: 'uploads/' });
 
 router.post("/signup", upload.single("profileImage"), authController.signup);
 router.post("/login", authController.login);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/reset-password/:token", authController.resetPassword);
 
 export default router;
