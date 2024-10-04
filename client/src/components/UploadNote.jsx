@@ -9,8 +9,9 @@ const UploadNote = () => {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [file, setFile] = useState(null); 
-
   const user = useSelector((state) => state.user.userData);
+
+  const token=user.token;
   const axios = useAxios();
   const userId = user._id;
 
@@ -32,6 +33,7 @@ const UploadNote = () => {
         formData,
         {
           headers: {
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -39,6 +41,7 @@ const UploadNote = () => {
       toast.success("Notes Uploaded Successfully");
       console.log("Data: ", result);
     } catch (error) {
+      console.log(localStorage.getItem("token"));
       toast.error("Failed to upload file");
       console.log("Failed to upload file: ", error);
     }
