@@ -13,7 +13,7 @@ const UploadNote = () => {
 
   const token=user.token;
   const axios = useAxios();
-  const userId = user._id;
+  const userId = user.user._id;
 
   const submitFile = async (e) => {
     try {
