@@ -5,9 +5,18 @@ import multer from "multer";
 // Initialize express router
 const router = express.Router();
 
-const storage = multer.memoryStorage()
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./files")
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
 
-const upload = multer({ storage: storage, dest: 'uploads/' });
+export const upload = multer({
+    storage,
+})
 
 router.post("/signup", upload.single("profileImage"), authController.signup);
 router.post("/login", authController.login);

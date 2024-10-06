@@ -8,12 +8,18 @@ const Profile = () => {
   const axios = useAxios();
 
   const [userFiles, setUserFiles] = useState([]);
-  const userId = user._id;
+  const userId = user.user._id;
+  const token = user.token
 
   useEffect(() => {
     const getUserFiles = async () => {
-      const result = await axios.get(`/notes/getFiles/${userId}`);
-      console.log(result.data);
+      const result = await axios.get(`/notes/getFiles/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(result.data);
       setUserFiles(result.data.data);
     };
 
@@ -27,14 +33,14 @@ const Profile = () => {
     <div className="bg-gray-100 dark:bg-gray-900 lg:h-heightWithoutNavbar flex flex-col items-center justify-center border border-gray-300 dark:border-gray-700 lg:flex-row">
       <div className="flex w-full flex-col items-center justify-center border-[3px] border-gray-300 dark:border-gray-700 py-4 lg:h-full lg:w-[40%]">
         <div className="grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full bg-gray-300 dark:bg-gray-700 text-2xl font-black">
-          <img src={user.profileImage} alt="userprofile" className="" />
+          <img src={user.user.profileImage} alt="userprofile" className="" />
         </div>
         <div className="my-2 flex flex-col items-center justify-center">
           <h2 className="text-2xl font-black text-gray-800 dark:text-gray-200">
-            <span>{user.firstName}</span> <span>{user.lastName}</span>
+            <span>{user.user.firstName}</span> <span>{user.user.lastName}</span>
           </h2>
-          <p className="mt-1 text-center text-gray-600 dark:text-gray-400">{user.userName}</p>
-          <p className="mt-1 text-center text-gray-600 dark:text-gray-400">{user.userBio}</p>
+          <p className="mt-1 text-center text-gray-600 dark:text-gray-400">{user.user.userName}</p>
+          <p className="mt-1 text-center text-gray-600 dark:text-gray-400">{user.user.userBio}</p>
         </div>
         <div className="flex items-center justify-center gap-4">
           <div className="grid h-[80px] w-[100px] place-content-center">
@@ -57,7 +63,7 @@ const Profile = () => {
         <div className="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3">
           {userFiles.map((file) => (
             <a
-              href={`${import.meta.env.VITE_BACKEND_URL}/files/${file.files}`}
+              href={`${file.files}`}
               key={file._id}
               className="mb-3 flex h-[35px] max-w-[250px] items-center justify-between gap-10 rounded-xl border border-gray-300 dark:border-gray-700 px-4 text-gray-800 dark:text-gray-200"
               target="_blank"

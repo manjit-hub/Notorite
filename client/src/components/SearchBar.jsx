@@ -10,13 +10,17 @@ const SearchBar = () => {
 
   const user = useSelector((state) => state.user.userData);
   const axios = useAxios();
-  const username = user.userName;
+
+  const token = user.token;
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     try {
       const notes = await axios.get('/notes/getFiles', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         params: {
           title: searchQuery,
         },
@@ -35,7 +39,7 @@ const SearchBar = () => {
   };
 
   const showPDF = async (files) => {
-    window.open(`${import.meta.env.VITE_BACKEND_URL}/files/${files}`, "_blank", "noreferrer");
+    window.open(`${files}`, "_blank", "noreferrer");
   };
 
   return (
@@ -61,7 +65,7 @@ const SearchBar = () => {
         </form>
       </div>
       <div className="mt-5 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {Array(4).fill(true).map((_, i) => (
+        {/* {Array(4).fill(true).map((_, i) => (
           <div
             key={i}
             className="flex w-full items-center justify-between rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-700 dark:text-gray-200 shadow-sm"
@@ -73,19 +77,27 @@ const SearchBar = () => {
               Show File
             </button>
           </div>
-        ))}
+        ))} */}
 
         {searchStatus === "Found" && searchResults.length > 0 && searchResults.map((notes) => (
           <div
             key={notes._id}
-            className="flex w-full max-w-[300px] flex-wrap-reverse items-center justify-between rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-gray-700 dark:text-gray-200 shadow-sm border border-gray-300 dark:border-gray-700"
+            className="flex items-center justify-between rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-5 py-3 text-gray-700 dark:text-gray-200 shadow-sm"
           >
-            <p className="mt-2 text-sm">
-              <span className="font-bold">File name: </span>
-              <span>{notes.fileName}</span>
-            </p>
+            <div className="flex flex-col">
+              <p className="text-sm">
+                <span>{notes.uploadedBy.firstName} {notes.uploadedBy.lastName}</span>
+              </p>
+              <p className="text-sm">
+                <span className="font-bold">File name: </span>
+                <span>{notes.fileName}</span>
+              </p>
+            </div>
 
-            <button onClick={() => showPDF(notes.files)} className="rounded-xl bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600">
+            <button
+              onClick={() => showPDF(notes.files)}
+              className="ml-auto rounded-xl bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
+            >
               Show PDF
             </button>
           </div>

@@ -18,10 +18,6 @@ cloudinary.config({
 });
 
 const signup = async (req, res) => {
-    // console.log("Signup endpoint hit");
-    // console.log(req.body);
-    // console.log(req.file); 
-
     try {
         const { firstName, lastName, userBio, userEmail, userName, userPassword } = req.body;
 
@@ -30,14 +26,21 @@ const signup = async (req, res) => {
             return res.status(401).json({ error: "User Already Exists with this email" });
         }
 
+        // console.log(req.body);
+        // console.log(req.file);
+
         console.log("Starting image upload to Cloudinary");
-        const result = await uploadToCloudinary(req.file);
+        const localFilePath = req.file.path
+        const originalname = req.file.originalname
+        const result = await uploadToCloudinary(localFilePath, originalname);
         console.log(result);
 
         const saltRounds = 10;
         const encryptedPassword = await bcrypt.hash(userPassword, saltRounds);
 
-        const newUser = new User({
+        console.log('1');
+
+        const newUser = await User.create({
             firstName,
             lastName,
             userBio,
@@ -46,8 +49,6 @@ const signup = async (req, res) => {
             userPassword: encryptedPassword,
             profileImage: result.secure_url,
         });
-
-        await newUser.save();
 
         const token = jwt.sign(
             { userId: newUser._id, userEmail: newUser.userEmail },
