@@ -1,17 +1,19 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { useAxios } from "../hooks/useAxios";
 
 const UploadNote = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [file, setFile] = useState(null); 
-
   const user = useSelector((state) => state.user.userData);
-  const userId = user._id;
+
+  const token=user.token;
+  const axios = useAxios();
+  const userId = user.user._id;
 
   const submitFile = async (e) => {
     try {
@@ -27,10 +29,11 @@ const UploadNote = () => {
       console.log(formData);
 
       const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/notes/upload`,
+        '/notes/upload',
         formData,
         {
           headers: {
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -38,6 +41,7 @@ const UploadNote = () => {
       toast.success("Notes Uploaded Successfully");
       console.log("Data: ", result);
     } catch (error) {
+      console.log(localStorage.getItem("token"));
       toast.error("Failed to upload file");
       console.log("Failed to upload file: ", error);
     }
@@ -45,16 +49,16 @@ const UploadNote = () => {
 
   return (
       <form
-        className="bg-stone-700 flex h-full w-full max-w-[770px] flex-col items-center justify-start p-5 md:border md:bg-stone-700 border-gray-400 lg:justify-center rounded-lg"
+        className="bg-gray-100 dark:bg-stone-700 flex h-full w-full max-w-[770px] flex-col items-center justify-start p-5 md:border md:bg-gray-100 dark:md:bg-stone-700 border-gray-400 lg:justify-center rounded-lg"
         onSubmit={submitFile}
         >
-        <h1 className="mb-5 text-2xl font-black text-white">Upload Your Notes</h1>
+        <h1 className="mb-5 text-2xl font-black text-gray-900 dark:text-white">Upload Your Notes</h1>
         <div className=" mb-5 w-full max-w-[550px] ">
           <input
             type="text"
             placeholder="Title"
             required
-            className="block w-full rounded-lg border bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-200"
+            className="block w-full rounded-lg border bg-gray-200 dark:bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-gray-200"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -64,7 +68,7 @@ const UploadNote = () => {
             placeholder="Description"
             required
             onChange={(e) => setDescription(e.target.value)}
-            className="block w-full rounded-lg border bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-200"
+            className="block w-full rounded-lg border bg-gray-200 dark:bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-gray-200"
           />
         </div>
         <div className="mb-5 w-full max-w-[550px] ">
@@ -73,17 +77,17 @@ const UploadNote = () => {
             placeholder="Tags"
             required
             onChange={(e) => setTags(e.target.value)}
-            className="block w-full rounded-lg border bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-200"
+            className="block w-full rounded-lg border bg-gray-200 dark:bg-stone-600 border-gray-400 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900 dark:text-gray-200"
           />
         </div>
         <div className="flex w-full max-w-[550px] items-center justify-center">
           <label
             htmlFor="dropzone-file"
-            className="flex w-full h-30 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-stone-600 border-gray-400 hover:bg-stone-7000"
+            className="flex w-full h-30 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-gray-200 dark:bg-stone-600 border-gray-400 hover:bg-gray-300 dark:hover:bg-stone-700"
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
-                className="mb-4 h-8 w-8 text-gray-500"
+                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-300"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -98,14 +102,14 @@ const UploadNote = () => {
                 />
               </svg>
               {!file ? (
-                <div className="text-center text-gray-500">
+                <div className="text-center text-gray-500 dark:text-gray-300">
                   <p className="mb-2 text-sm">
                     <span className="font-semibold">Click to Upload</span> or drag and drop
                   </p>
                   <p className="text-xs">PDF</p>
                 </div>
               ) : (
-                <div className="text-center text-white">
+                <div className="text-center text-gray-900 dark:text-white">
                   <p className="mb-2 text-sm">
                     <span className="font-semibold">File Uploaded:</span> {file.name}
                   </p>
