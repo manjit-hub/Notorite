@@ -35,10 +35,10 @@ const Navbar = () => {
         <GiHamburgerMenu className="text-xl md:hidden text-gray-800 dark:text-white" />
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
           <ThemeToggleBtn />
-          <Link to="/" className="text-gray-800 dark:text-white">
+          <Link to="/" className="ml-4 mr-4 text-gray-800 dark:text-white">
             Home
           </Link>
-          <Link to="/about" className="text-gray-800 dark:text-white">
+          <Link to="/about" className="mr-4 text-gray-800 dark:text-white">
             About
           </Link>
 
@@ -66,18 +66,14 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/login">
-                <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
-                  Login
-                </button>
+                <button class="btn">Login</button>
+                <span class="animation"></span>
               </Link>
               <Link to="/signup">
-                <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
-                  Signup
-                </button>
+                <button class="btn">Signup</button>
               </Link>
             </>
           )}
-          
         </div>
       </div>
     </header>
