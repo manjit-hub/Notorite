@@ -5,3 +5,150 @@
 body {
     @apply bg-stone-900; /* You can change `blue-500` to any Tailwind color */
 }
+
+.button {
+    --main-color: rgb(46, 213, 115);
+    --main-bg-color: rgba(46, 213, 116, 0.36);
+    --pattern-color: rgba(46, 213, 116, 0.073);
+    filter: hue-rotate(0deg);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    background: radial-gradient(circle, var(--main-bg-color) 0%, rgba(0, 0, 0, 0) 95%),
+        linear-gradient(var(--pattern-color) 1px, transparent 1px),
+        linear-gradient(to right, var(--pattern-color) 1px, transparent 1px);
+    background-size: cover, 15px 15px, 15px 15px;
+    background-position: center center, center center, center center;
+    border-image: radial-gradient(circle, var(--main-color) 0%, rgba(0, 0, 0, 0) 100%) 1;
+    border-width: 1px 0 1px 0;
+    color: var(--main-color);
+    padding: 0.2rem 3rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    transition: background-size 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-size: cover, 10px 10px, 10px 10px;
+}
+
+.button:active {
+    filter: hue-rotate(250deg);
+}
+
+.btn {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 24px;
+    font-size: 14px;
+    color: rgb(46, 213, 115);
+    border: 2px solid rgb(46, 213, 115);
+    border-radius: 34px;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: inherit;
+    scale: 0;
+    z-index: -1;
+    background-color: rgb(46, 213, 115);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.btn:hover::before {
+    scale: 3;
+}
+
+.btn:hover {
+    color: #212121;
+    scale: 1.1;
+    box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
+}
+
+.btn:active {
+    scale: 1;
+}
+
+#checkboxInput {
+    display: none;
+}
+
+/* The switch container */
+/* Hide the checkbox */
+input[type="checkbox"] {
+    display: none;
+    /* Hide the native checkbox */
+}
+
+/* The switch container */
+.toggleSwitch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 80px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Smooth background transition */
+}
+
+/* The inner circle of the switch */
+.toggleSwitch-circle {
+    position: absolute;
+    height: 36px;
+    width: 36px;
+    left: 2px;
+    background: conic-gradient(rgb(104, 104, 104), white, rgb(104, 104, 104), white, rgb(104, 104, 104));
+    border-radius: 50%;
+    /* Make it circular */
+    transition: transform 0.3s ease;
+    /* Smooth movement */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    /* Optional shadow */
+}
+
+/* Circle translation based on theme */
+.toggleSwitch-circle.translate-x-full {
+    transform: translateX(40px);
+    /* Move it to the right */
+}
+
+/* Switch background change */
+.toggleSwitch.bg-blue-600 {
+    background-color: rgb(153, 197, 151);
+    /* Change background when active */
+}
+
+a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 4px;
+    transition: background-size cubic-bezier(0, .5, 0, 1) 0.3s,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    background-size: 100% 2px;
+    color: #4ec825;
+    /* Change text color on hover */
+    transform: scale(1.05);
+    /* Scale up the link slightly */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* Add shadow effect */
+}

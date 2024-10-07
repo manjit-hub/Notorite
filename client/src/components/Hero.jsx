@@ -16,7 +16,7 @@ const Hero = () => {
         <p className="mt-5 text-sm font-light md:text-xl md:font-normal">
         “Welcome to NOTORITE !     Here, students unite for seamless organization, easy access, and collaborative sharing of PDF notes. Say goodbye to scattered notebooks; streamline your study routine and embark on a journey toward academic excellence. Simplify your student life, empower your notes, and explore a new era of innovation. Start today! 🚀📚”
         </p>
-        <div className="mt-5">
+        <div className="mt-10">
           {/* <Link to="/search">
             <button className="rounded-xl bg-white px-7 py-4 font-black text-blue-500 ">
               Get Started
@@ -31,14 +31,10 @@ const Hero = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
-                    Login
-                  </button>
+                  <button className="button">Login</button>
                 </Link>
                 <Link to="/signup">
-                  <button className="rounded-xl px-5 py-2 font-semibold bg-sky-600 text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600">
-                    Signup
-                  </button>
+                  <button className="button">Signup</button>
                 </Link>
 
               </>
