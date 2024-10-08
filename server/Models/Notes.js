@@ -10,7 +10,7 @@ const NoteSchema = mongoose.Schema({
         required: true,
     },
     tags: {
-        type: String,
+        type: [{ type: String }],
         required: true,
     },
     files: {
@@ -22,7 +22,6 @@ const NoteSchema = mongoose.Schema({
         ref: 'User',
         required: true,
     },
-
 });
 
 const Notes = mongoose.model("Notes", NoteSchema);

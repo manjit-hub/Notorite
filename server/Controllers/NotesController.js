@@ -1,10 +1,7 @@
-// Import statements (ESM syntax)
-import express from "express";
 import dotenv from "dotenv";
 import Notes from "../Models/Notes.js"; // Add `.js` extension
 import multer from "multer";
-import path from "path";
-import g from "gridfs-stream";
+import { uploadToCloudinary } from "../Middleware/uploadImg.js";
 
 dotenv.config();
 
@@ -15,28 +12,31 @@ const upload = multer({ storage: storage });
 // uploadNote function
 const uploadNote = async (req, res) => {
     try {
-        const fileName = req.body.title;
-        const fileDescription = req.body.description;
-        const tags = req.body.tags;
-        const file = req.file.filename;
-
+        const { title, description, tags } = req.body;
         const uploadedBy = req.body.userId;
-        // console.log(uploadedBy);
+
+        console.log(req.file);
+
+        const localFilePath = req.file.path;
+        const originalname = req.file.originalname;
+        const cloudFileUrl = await uploadToCloudinary(localFilePath, originalname);
+        console.log(cloudFileUrl);
 
         const newFile = new Notes({
-            fileName: fileName,
-            fileDescription: fileDescription,
+            fileName: title,
+            fileDescription: description,
             tags: tags,
-            files: file,
-            uploadedBy: uploadedBy
+            files: cloudFileUrl.secure_url, // Save the URL returned by Cloudinary
+            uploadedBy: uploadedBy,
         });
 
         await newFile.save();
-        res.send({ status: "Ok" });
-        console.log("File uploaded successfully" + newFile);
+
+        res.status(201).send({ status: "Success", data: newFile });
+        console.log("File uploaded and saved to MongoDB successfully:", newFile);
     } catch (error) {
-        res.status(400).json({ error: error.message });
-        console.log(error);
+        console.error("Error uploading file:", error.message);
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -47,20 +47,13 @@ const getNote = async (req, res) => {
         const query = {};
 
         if (title) {
-            query.fileName = {
-                $regex: title,
-                $options: "i"
-            };
+            query.$or = [
+                { fileName: { $regex: title, $options: "i" } },
+                { tags: { $regex: title, $options: "i" } }, 
+            ];
         }
 
-        if (tag) {
-            query.tag = {
-                $regex: tag,
-                $options: "i"
-            };
-        }
-
-        const data = await Notes.find(query);
+        const data = await Notes.find(query).populate('uploadedBy', 'firstName lastName');
         res.send({ data: data });
 
     } catch (error) {
@@ -72,7 +65,6 @@ const getNote = async (req, res) => {
 const getNoteByID = async (req, res) => {
     try {
         const userId = req.params.id;
-        // console.log(userId);
 
         await Notes.find({
             uploadedBy: userId

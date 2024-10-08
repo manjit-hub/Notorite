@@ -9,9 +9,9 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const destinationPath = "./files";
         fs.mkdirSync(destinationPath, { recursive: true });
-        // Check if the directory exists
+        
         if (!fs.existsSync(destinationPath)) {
-          throw new Error(`Directory ${destinationPath} does not exist`);
+            throw new Error(`Directory ${destinationPath} does not exist`);
         }
         cb(null, destinationPath);
     },
@@ -27,7 +27,7 @@ const upload = multer({
 
 // Routes
 router.post("/upload", protect, upload.single("file"), NotesController.uploadNote);
-router.get("/getFiles", protect ,NotesController.getNote);
+router.get("/getFiles", protect, NotesController.getNote);
 router.get("/getFiles/:id", protect, NotesController.getNoteByID);
 
 export default router;
