@@ -76,6 +76,8 @@ Deployed Link : https://notorite.vercel.app/
    FRONTEND_URL = http://localhost:5173
    PORT = 8000
    JWT_SECRET = your_jwt_secret_key
+   EMAIL = your-email-address 
+   EMAIL_PASSWORD =password<for-OTP-email-sender-different-from-gmail-password>
    ```
    > **Note**: Replace the above credentials with your own MongoDB Atlas and Cloudinary account details.
 
