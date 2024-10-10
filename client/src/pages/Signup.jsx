@@ -30,6 +30,15 @@ const Signup = () => {
         toast.error("Please verify your email before registering.");
         return;
       }
+      if (!userEmail.endsWith("@gmail.com")) {
+        toast.error("Invalid email domain. Must be @gmail.com");
+        return;
+      }
+
+      if (userPassword.length < 8) {
+        toast.error("Password must be at least 8 characters long");
+        return;
+      }
 
       const formData = new FormData();
       formData.append("firstName", firstName);
