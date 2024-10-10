@@ -21,6 +21,15 @@ const signup = async (req, res) => {
     try {
         const { firstName, lastName, userBio, userEmail, userName, userPassword } = req.body;
 
+        if (!userEmail.endsWith("@gmail.com")) {
+            return res.status(400).json({ error: "Invalid email domain. Must be @gmail.com" });
+        }
+                
+
+        if (userPassword.length < 8) {
+            return res.status(400).json({ error: "Password must be at least 8 characters long" });
+        }
+
         const existingUser = await User.findOne({ userEmail });
         if (existingUser) {
             return res.status(401).json({ error: "User Already Exists with this email" });
