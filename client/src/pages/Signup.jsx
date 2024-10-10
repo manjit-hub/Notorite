@@ -36,7 +36,6 @@ const Signup = () => {
       formData.append("lastName", lastName);
       formData.append("userBio", userBio);
       formData.append("userEmail", userEmail);
-      formData.append("userMobile", userMobile);
       formData.append("userName", userName);
       formData.append("userPassword", userPassword);
       formData.append("profileImage", profileImage);
@@ -193,19 +192,6 @@ const Signup = () => {
           )}
         </div>
 
-
-
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold text-gray-900 dark:text-white" htmlFor="userMobile">Mobile Number</label>
-          <input
-            type="number"
-            id="userMobile"
-            name="userMobile"
-            className="w-full rounded-lg border border-gray-400 bg-gray-100 dark:bg-stone-600 p-2 focus:border-blue-500 focus:outline-none text-gray-900 dark:text-gray-200"
-            placeholder="+91 90789XXXX"
-            onChange={(e) => setUserMobile(e.target.value)}
-          />
-        </div>
         <div className="flex flex-col items-start justify-center">
           <label className="font-bold text-gray-900 dark:text-white" htmlFor="userName">Username</label>
           <input

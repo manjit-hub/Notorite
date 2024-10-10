@@ -20,5 +20,13 @@ export default {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.hover\\:no-underline:hover': {
+          textDecoration: 'none',
+        },
+      })
+    },
+  ],
 };
