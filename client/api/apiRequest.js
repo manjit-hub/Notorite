@@ -99,5 +99,4 @@ export default {
   forgetPassword,
   resetPassword,
   sendOtp,
-  verifyOtp,
 };
