@@ -58,10 +58,118 @@ const forgetPassword = async (forgotEmail) => {
   }
 };
 
+const resetPassword = async (resetPassword) => {
+  try {
+    const result = axios.post(
+      `${process.env.VITE_BACKEND_URL}/auth/reset-password/:token"`,
+      { newPassword: resetPassword },
+    );
+    if (result.data.status == "Error") {
+      console.log("Error in reseting the password");
+      return result;
+    } else {
+      console.log("Password reset successfully: ", result);
+      return result;
+    }
+  } catch (error) {
+    console.error("Error in resetting password", error);
+  }
+};
+
+const sendOtp = async (useremail) => {
+  try {
+    const result = await axios.post(
+      `${process.env.VITE_BACKEND_URL}/auth/send-otp`,
+      {
+        useremail,
+      },
+    );
+    console.log("OTP send successfully");
+    return result;
+  } catch (error) {
+    console.error("Error in sending OTP");
+  }
+};
+
+const verifyOtp = (userEmail, otp) => {
+  try {
+    const result = axios.post(
+      `${process.env.VITE_BACKEND_URL}/auth/verify-otp`,
+      {
+        userEmail,
+        otp,
+      },
+    );
+    console.log("Email verified successfully");
+    return result;
+  } catch (error) {
+    console.error("Verification error", error);
+  }
+};
+
 // Notes Routes
+
+const upload = async (formData) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const result = await axios.post(
+      `${process.env.VITE_BACKEND_URL}/auth/upload`,
+      formData,
+      config,
+    );
+    console.log("Uploaded operation completed");
+
+    return result;
+  } catch (error) {
+    console.error("Error in uploading the file ", error);
+  }
+};
+
+const getFiles = async (token) => {
+  try {
+    const notes = await axios.get(
+      `${process.env.VITE_BACKEND_URL}/notes/getFiles`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          title: searchQuery,
+        },
+      },
+    );
+
+    return notes;
+  } catch (error) {
+    console.log("Error Fetching Notes: ", error);
+  }
+};
+
+const getFilesById = async (userId, token) => {
+  const result = await axios.get(
+    `${process.env.VITE_BACKEND_URL}/notes/getFiles/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  // console.log(result.data);
+  return result;
+};
 
 export default {
   signup,
   login,
   forgetPassword,
+  resetPassword,
+  sendOtp,
+  verifyOtp,
+  upload,
+  getFiles,
+  getFilesById,
 };
