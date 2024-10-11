@@ -91,22 +91,6 @@ const sendOtp = async (useremail) => {
   }
 };
 
-const verifyOtp = (userEmail, otp) => {
-  try {
-    const result = axios.post(
-      `${process.env.VITE_BACKEND_URL}/auth/verify-otp`,
-      {
-        userEmail,
-        otp,
-      },
-    );
-    console.log("Email verified successfully");
-    return result;
-  } catch (error) {
-    console.error("Verification error", error);
-  }
-};
-
 // Notes Routes
 
 export default {
