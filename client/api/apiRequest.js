@@ -109,45 +109,6 @@ const verifyOtp = (userEmail, otp) => {
 
 // Notes Routes
 
-const upload = async (formData) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    const result = await axios.post(
-      `${process.env.VITE_BACKEND_URL}/auth/upload`,
-      formData,
-      config,
-    );
-    console.log("Uploaded operation completed");
-
-    return result;
-  } catch (error) {
-    console.error("Error in uploading the file ", error);
-  }
-};
-
-const getFiles = async (token) => {
-  try {
-    const notes = await axios.get(
-      `${process.env.VITE_BACKEND_URL}/notes/getFiles`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          title: searchQuery,
-        },
-      },
-    );
-    return notes;
-  } catch (error) {
-    console.log("Error Fetching Notes: ", error);
-  }
-};
-
 export default {
   signup,
   login,
