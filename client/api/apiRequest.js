@@ -116,6 +116,4 @@ export default {
   resetPassword,
   sendOtp,
   verifyOtp,
-  upload,
-  getFiles,
 };
