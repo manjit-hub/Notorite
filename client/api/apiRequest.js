@@ -157,11 +157,14 @@ const getFiles = async (token) => {
 };
 
 const getFilesById = async (userId, token) => {
-  const result = await axios.get(`/notes/getFiles/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const result = await axios.get(
+    `${process.env.Authorization}/notes/getFiles/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
   // console.log(result.data);
   return result;
 };
@@ -175,4 +178,5 @@ export default {
   verifyOtp,
   upload,
   getFiles,
+  getFilesById,
 };
