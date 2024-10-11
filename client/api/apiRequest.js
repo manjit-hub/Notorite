@@ -142,14 +142,6 @@ const getFiles = async (token) => {
         },
       },
     );
-
-    if (notes.data.data.length > 0) {
-      setSearchResults(notes.data.data);
-      setSearchStatus("Found");
-    } else {
-      setSearchResults([]);
-      setSearchStatus("Not-Found");
-    }
     return notes;
   } catch (error) {
     console.log("Error Fetching Notes: ", error);
