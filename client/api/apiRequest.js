@@ -58,45 +58,10 @@ const forgetPassword = async (forgotEmail) => {
   }
 };
 
-const resetPassword = async (resetPassword) => {
-  try {
-    const result = axios.post(
-      `${process.env.VITE_BACKEND_URL}/auth/reset-password/:token"`,
-      { newPassword: resetPassword },
-    );
-    if (result.data.status == "Error") {
-      console.log("Error in reseting the password");
-      return result;
-    } else {
-      console.log("Password reset successfully: ", result);
-      return result;
-    }
-  } catch (error) {
-    console.error("Error in resetting password", error);
-  }
-};
-
-const sendOtp = async (useremail) => {
-  try {
-    const result = await axios.post(
-      `${process.env.VITE_BACKEND_URL}/auth/send-otp`,
-      {
-        useremail,
-      },
-    );
-    console.log("OTP send successfully");
-    return result;
-  } catch (error) {
-    console.error("Error in sending OTP");
-  }
-};
-
 // Notes Routes
 
 export default {
   signup,
   login,
   forgetPassword,
-  resetPassword,
-  sendOtp,
 };
