@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useAxios } from "../hooks/useAxios";
+import PasswordStrengthBar from "react-password-strength-bar";
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -248,7 +249,8 @@ const Signup = () => {
             onChange={(e) => setUserPassword(e.target.value)}
           />
         </div>
-
+        <PasswordStrengthBar password={userPassword} />
+        
         <div className="flex w-full flex-col justify-center">
           <div className="font-bold text-gray-900 dark:text-white">
             Profile Image
