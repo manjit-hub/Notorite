@@ -76,4 +76,15 @@ const getNoteByID = async (req, res) => {
     }
 };
 
-export default {getNote, getNoteByID, uploadNote};
+// Get all uploaded files
+const getAllNotes = async (req, res) => {
+    try {
+        const allNotes = await Notes.find().populate('uploadedBy', 'firstName lastName');
+        res.status(200).json({ status: "success", data: allNotes });
+    } catch (error) {
+        console.error("Error fetching all notes:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export default {getNote, getNoteByID, uploadNote, getAllNotes};
