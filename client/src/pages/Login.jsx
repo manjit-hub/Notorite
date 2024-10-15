@@ -37,7 +37,10 @@ const Login = () => {
         }, 1000);
       }
     } catch (error) {
-      toast.error("Login failed!");
+      const errorMessage = error.response && error.response.data && error.response.data.error
+      ? error.response.data.error
+      : "Login failed!";
+      toast.error(errorMessage);
       console.log("Cannot log in the user: ", error);
     }
   };
@@ -52,7 +55,11 @@ const Login = () => {
         toast.error("Error sending reset email.");
       }
     } catch (error) {
-      toast.error("Failed to send reset email.");
+      const errorMessage = error.response && error.response.data && error.response.data.error
+      ? error.response.data.error
+      : "Failed to send reset email.";
+      
+      toast.error(errorMessage); 
       console.log("Error in forgot password: ", error);
     }
   };

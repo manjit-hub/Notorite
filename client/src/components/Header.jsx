@@ -27,7 +27,7 @@ const Navbar = () => {
     <header className="flex h-[80px] items-center justify-center bg-gray-300 shadow-md dark:bg-stone-900">
       <div className="mx-5 flex w-full max-w-[1550px] items-center justify-between">
         {/* image section */}
-        <div className="flex h-[120px] w-[120px] items-center justify-center overflow-hidden">
+        <div className="ml-[-30px] flex h-[120px] w-[120px] items-center justify-center overflow-hidden">
           <Link to="/">
             <img
               src="/logo.png"
