@@ -1,24 +1,43 @@
 import express from "express";
 import authController from "../Controllers/AuthController.js";
 import multer from "multer";
+import path from "path"; // Import path for handling file paths
+import fs from "fs"; // Import fs for file system operations
+import { fileURLToPath } from "url";
+
+// Get __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Initialize express router
 const router = express.Router();
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./files")
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
+  destination: function (req, file, cb) {
+    const filesPath = path.resolve(__dirname, "../files");
+
+    // Ensure the directory exists or create it
+    if (!fs.existsSync(filesPath)) {
+      fs.mkdirSync(filesPath, { recursive: true });
     }
-})
+
+    cb(null, filesPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
 export const upload = multer({
-    storage,
-})
+  storage,
+});
 
-router.post("/signup", upload.single("profileImage"), authController.signup);
+router.post(
+  "/signup",
+  upload.single("profileImage"), // This middleware handles the file upload
+  authController.signup // This will run after the file upload is successful
+);
+
 router.post("/login", authController.login);
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password/:token", authController.resetPassword);
