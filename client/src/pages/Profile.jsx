@@ -179,10 +179,10 @@ const Profile = () => {
                 </svg>
                 <div className="flex-1 space-y-0.5">
                   <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-200">
-                    AI Power Analytics
+                    Update Profile
                   </h3>
                   <p className="text-sm font-normal leading-none text-gray-400">
-                    powered by askAlfred
+                    powered by Notorite
                   </p>
                 </div>
                 <button
