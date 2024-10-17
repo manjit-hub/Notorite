@@ -248,6 +248,41 @@ const verifyOtp = async (req, res) => {
   }
 };
 
+export const update = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1]; // Extract token from 'Bearer <token>'
+
+  if (!token) {
+    return res.status(403).send("A token is required for authentication");
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Attach the decoded user information to the request (including userId)
+    req.user = decoded;
+    const userId = req.user.userId;
+    const { firstName, lastName, userBio, userName } = req.body;
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.userBio = userBio;
+    user.userName = userName;
+    await user.save();
+    return res.status(200).json({
+      message: "User updated successfully",
+      userData: {
+        status: "Ok",
+        token: token,
+        user: user,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export default {
   signup,
   login,
@@ -255,4 +290,5 @@ export default {
   resetPassword,
   sendOtp,
   verifyOtp,
+  update,
 };

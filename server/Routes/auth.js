@@ -4,6 +4,7 @@ import multer from "multer";
 import path from "path"; // Import path for handling file paths
 import fs from "fs"; // Import fs for file system operations
 import { fileURLToPath } from "url";
+import { protect } from "../Middleware/authMiddleware.js";
 
 // Get __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -43,5 +44,6 @@ router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password/:token", authController.resetPassword);
 router.post("/send-otp", authController.sendOtp);
 router.post("/verify-otp", authController.verifyOtp);
+router.put("/update", protect, authController.update);
 
 export default router;
