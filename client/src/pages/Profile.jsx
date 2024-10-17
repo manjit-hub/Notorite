@@ -15,6 +15,8 @@ const Profile = () => {
   const axios = useAxios();
 
   const [userFiles, setUserFiles] = useState([]);
+  console.log(user);
+
   const userId = user.user._id;
   const token = user.token;
 
@@ -76,7 +78,6 @@ const Profile = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const updateProfile = async () => {
-    console.log(token);
     try {
       const result = await axios.put(
         `/auth/update`,
@@ -94,6 +95,8 @@ const Profile = () => {
           },
         },
       );
+      console.log(result);
+      dispatch(setUserData(result.data.userData));
 
       setIsVisible(false);
     } catch (error) {

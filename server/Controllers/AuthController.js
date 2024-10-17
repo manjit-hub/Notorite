@@ -271,9 +271,12 @@ export const update = async (req, res) => {
     user.userName = userName;
     await user.save();
     return res.status(200).json({
-      status: "Ok",
       message: "User updated successfully",
-      updatedUser: user,
+      userData: {
+        status: "Ok",
+        token: token,
+        user: user,
+      },
     });
   } catch (err) {
     console.log(err);
