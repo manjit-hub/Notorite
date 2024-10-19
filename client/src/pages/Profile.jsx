@@ -3,9 +3,11 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useAxios } from "../hooks/useAxios";
 import { setUserData } from "../Redux/slices/user-slice";
+
 const Profile = () => {
   const user = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
+  const [isAbove480px, setIsAbove480px] = useState(window.innerWidth > 480);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -46,6 +48,17 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsAbove480px(window.innerWidth > 480); // Check if width is above 480px
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     const getUserFiles = async () => {
       const result = await axios.get(`/notes/getFiles/${userId}`, {
         headers: {
@@ -82,16 +95,14 @@ const Profile = () => {
       const result = await axios.put(
         `/auth/update`,
         {
-          // The request body (data)
           firstName,
           lastName,
           userName,
           userBio,
         },
         {
-          // The config object where headers go
           headers: {
-            Authorization: `Bearer ${token}`, // Sending token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -101,19 +112,21 @@ const Profile = () => {
       setIsVisible(false);
     } catch (error) {
       console.error("Error updating profile:", error);
-      // Handle error here (e.g., show a notification or log it)
     }
   };
+
+  // Check if the screen size is less than a certain threshold
+  const isMobile = window.innerWidth < 1024; // Adjust based on your design
 
   return (
     <div
       ref={containerRef}
-      className="flex h-full w-full lg:h-heightWithoutNavbar"
+      className="flex h-full w-full flex-col sm:flex-row lg:h-heightWithoutNavbar"
     >
       {/* Left Pane (Resizable) */}
       <div
-        style={{ width: `${leftWidth}%` }}
-        className="flex w-full flex-col items-center justify-center border-[3px] border-gray-300 bg-gray-100 py-4 dark:border-gray-700 dark:bg-gray-900 lg:h-full"
+        style={{ width: isAbove480px ? `${leftWidth}%` : "100%" }} // Dynamic width
+        className="flex flex-col items-center justify-center border-[3px] border-gray-300 bg-gray-100 py-4 dark:border-gray-700 dark:bg-gray-900"
       >
         <div className="grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full bg-gray-300 text-2xl font-black dark:bg-gray-700">
           <img src={user.user.profileImage} alt="userprofile" />
@@ -295,15 +308,17 @@ const Profile = () => {
       </div>
 
       {/* Divider (Draggable) */}
-      <div
-        onMouseDown={startResizing}
-        className="w-[5px] cursor-col-resize bg-gray-400"
-      ></div>
+      {!isMobile && (
+        <div
+          onMouseDown={startResizing}
+          className="w-[5px] cursor-col-resize bg-gray-400"
+        ></div>
+      )}
 
       {/* Right Pane */}
       <div
-        style={{ width: `${100 - leftWidth}%` }}
-        className="h-auto w-full border-[3px] border-gray-300 bg-gray-900 p-5 dark:border-gray-700 dark:bg-gray-900 lg:h-full"
+        style={{ width: isAbove480px ? `${100 - leftWidth}%` : "100%" }} // Dynamic width
+        className="h-auto border-[3px] border-gray-300 bg-gray-900 p-5 dark:border-gray-700 dark:bg-gray-900 lg:h-full"
       >
         <h1 className="mb-3 text-xl font-black text-gray-800 dark:text-gray-200">
           My Documents:
