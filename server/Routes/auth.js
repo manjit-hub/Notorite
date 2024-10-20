@@ -44,6 +44,12 @@ router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password/:token", authController.resetPassword);
 router.post("/send-otp", authController.sendOtp);
 router.post("/verify-otp", authController.verifyOtp);
-router.put("/update", protect, authController.update);
+router.put("/change-password", authController.changePassword);
+router.put(
+  '/update',
+  protect,
+  upload.single('profileImage'), // Add this middleware
+  authController.update
+);
 
 export default router;

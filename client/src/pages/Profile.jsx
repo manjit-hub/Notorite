@@ -3,6 +3,8 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useAxios } from "../hooks/useAxios";
 import { setUserData } from "../Redux/slices/user-slice";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.userData);
@@ -13,17 +15,26 @@ const Profile = () => {
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [userBio, setUserBio] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [password, setPassword] = useState("");
+
+  // Change password states
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const axios = useAxios();
 
   const [userFiles, setUserFiles] = useState([]);
   console.log(user);
 
-  const userId = user.user._id;
-  const token = user.token;
+  const userId = user?.user?._id;
+  const token = user?.token;
 
   const [leftWidth, setLeftWidth] = useState(40); // Left section width in percentages
   const containerRef = useRef(null);
+
+  const handleImageUpload = (e) => setProfileImage(e.target.files[0]);
 
   const handleMouseMove = (e) => {
     const container = containerRef.current;
@@ -59,17 +70,51 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    const getUserFiles = async () => {
+    const handleResize = () => {
+      setIsAbove480px(window.innerWidth > 480); // Check if width is above 480px
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   const getUserFiles = async () => {
+  //     const result = await axios.get(`/notes/getFiles/${userId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setUserFiles(result.data.data);
+  //   };
+
+  //   getUserFiles();
+  // }, [userId, axios, token]);
+
+  const fetchUserFiles = async () => {
+    try {
       const result = await axios.get(`/notes/getFiles/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setUserFiles(result.data.data);
-    };
+    } catch (error) {
+      console.error("Error fetching user files:", error);
+    }
+  };
 
-    getUserFiles();
-  }, [userId]);
+  const handleEditProfileClick = () => {
+    fetchUserFiles(); // Fetch user files when "Edit Profile" is clicked
+    setIsVisible(true);
+  };
+
+  const handleChangePasswordClick = () => {
+    fetchUserFiles(); // Fetch user files when "Change Password" is clicked
+    setIsPasswordVisible(true);
+  };
 
   const getColorFromHash = (str) => {
     let hash = 0;
@@ -87,31 +132,107 @@ const Profile = () => {
   };
 
   const numberofUploads = userFiles.length;
-  const numberofFiles = userFiles.reduce((count) => count + 1, 0);
+  const numberofFiles = userFiles.length;
   const [isVisible, setIsVisible] = useState(false);
 
   const updateProfile = async () => {
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("userName", userName);
+    formData.append("userBio", userBio);
+    if (profileImage) formData.append("profileImage", profileImage);
+    formData.append("password", password);
+
+    try {
+      const result = await axios.put("/auth/update", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Profile updated successfully:", result.data);
+
+      // Dispatch updated user data
+      dispatch(setUserData(result.data.userData));
+
+      // Close the modal
+      setIsVisible(false);
+
+      Toastify({
+        text: "Profile updated successfully",
+        backgroundColor: "green",
+      }).showToast();
+
+      // Reset form fields
+      setFirstName("");
+      setLastName("");
+      setUserName("");
+      setUserBio("");
+      setProfileImage(null);
+      setPassword("");
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.error || "Failed to update profile";
+      Toastify({
+        text: errorMessage,
+        backgroundColor: "red",
+      }).showToast();
+    }
+  };
+
+  const changePassword = async () => {
+    if (!currentPassword || !newPassword) {
+      Toastify({
+        text: "Both current and new passwords are required",
+        backgroundColor: "red",
+      }).showToast();
+      return;
+    }
+    if (newPassword.length < 8) {
+      Toastify({
+        text: "New password must be at least 8 characters long",
+        backgroundColor: "red",
+      }).showToast();
+      return;
+    }
+
     try {
       const result = await axios.put(
-        `/auth/update`,
-        {
-          firstName,
-          lastName,
-          userName,
-          userBio,
-        },
+        "/auth/change-password",
+        { currentPassword, newPassword },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      console.log(result);
-      dispatch(setUserData(result.data.userData));
-
-      setIsVisible(false);
+      // alert(result.data.message);
+      Toastify({
+        text: result.data.message,
+        backgroundColor: "green",
+      }).showToast();
+      setIsPasswordVisible(false);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error changing password:", error);
+      // alert(error.response.data.error);
+      Toastify({
+        text: errorMessage,
+        backgroundColor: "red",
+      }).showToast();
+
+      if (error.response?.status === 401) {
+        // Token expired or invalid, show appropriate message
+        Toastify({
+          text: "Session expired. Please login again.",
+          backgroundColor: "orange",
+        }).showToast();
+
+        // Optionally redirect to the login page
+        setTimeout(() => {
+          window.location.href = "/login"; // Change this to your login route
+        }, 3000);
+      }
     }
   };
 
@@ -129,7 +250,7 @@ const Profile = () => {
         className="flex flex-col items-center justify-center border-[3px] border-gray-300 bg-gray-100 py-4 dark:border-gray-700 dark:bg-gray-900"
       >
         <div className="grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full bg-gray-300 text-2xl font-black dark:bg-gray-700">
-          <img src={user.user.profileImage} alt="userprofile" />
+          <img src={user?.user?.profileImage} alt="userprofile" />
         </div>
         <div className="my-2 flex flex-col items-center justify-center">
           <h2 className="text-2xl font-black text-gray-800 dark:text-gray-200">
@@ -162,10 +283,16 @@ const Profile = () => {
           </div>
         </div>
         <button
-          className="rounded-xl bg-sky-500 px-5 py-2 font-semibold text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600"
-          onClick={() => setIsVisible(true)}
+          className="mt-2 rounded-xl bg-sky-500 px-7 py-2 font-semibold text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600"
+          onClick={handleEditProfileClick}
         >
           Edit Profile
+        </button>
+        <button
+          className="mt-2 rounded-xl bg-sky-500 px-7 py-2 font-semibold text-white hover:bg-sky-600 dark:bg-blue-500 dark:hover:bg-blue-600"
+          onClick={handleChangePasswordClick}
+        >
+          Change Password
         </button>
         {isVisible && (
           <div
@@ -185,7 +312,7 @@ const Profile = () => {
                   height="24"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="currentColor"
+                  stroke="white"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -218,17 +345,17 @@ const Profile = () => {
                     strokeLinejoin="round"
                   >
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M17 7l-10 10"></path>
-                    <path d="M8 7h9v9"></path>
+                    <path d="M18 6L6 18"></path>
+                    <path d="M6 6l12 12"></path>
                   </svg>
                 </button>
               </div>
               <div
                 aria-label="content"
-                className="mt-9 grid justify-items-center gap-2.5 p-2"
+                className="mt-9 grid justify-items-center gap-2"
               >
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col items-start justify-center">
+                <div className="flex flex-col gap-1">
+                  <div className="wflex flex-col items-start justify-center">
                     <label
                       className="font-bold text-gray-900 dark:text-white"
                       htmlFor="firstName"
@@ -240,7 +367,7 @@ const Profile = () => {
                       id="firstName"
                       name="firstName"
                       className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
-                      placeholder="Gol"
+                      placeholder="Gold"
                       onChange={(e) => setFirstName(e.target.value)}
                     />
                   </div>
@@ -256,7 +383,7 @@ const Profile = () => {
                       id="lastName"
                       name="lastName"
                       className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
-                      placeholder="D. Roger"
+                      placeholder="Roger"
                       onChange={(e) => setLastName(e.target.value)}
                     />
                   </div>
@@ -272,7 +399,7 @@ const Profile = () => {
                       id="userName"
                       name="userName"
                       className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
-                      placeholder="Gold Roger"
+                      placeholder="gold_roger"
                       onChange={(e) => setUserName(e.target.value)}
                     />
                   </div>
@@ -288,8 +415,40 @@ const Profile = () => {
                       id="userBio"
                       name="userBio"
                       className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
-                      placeholder="One piece is real"
+                      placeholder="One piece is real."
                       onChange={(e) => setUserBio(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col items-start justify-center">
+                    <label
+                      className="font-bold text-gray-900 dark:text-white"
+                      htmlFor="profileImage"
+                    >
+                      Profile Image
+                    </label>
+                    <input
+                      type="file"
+                      id="profileImage"
+                      name="profileImage"
+                      className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
+                      onChange={handleImageUpload}
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-start justify-center">
+                    <label
+                      className="font-bold text-gray-900 dark:text-white"
+                      htmlFor="password"
+                    >
+                      Verify Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
+                      placeholder="Enter your password"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
@@ -306,6 +465,113 @@ const Profile = () => {
           </div>
         )}
       </div>
+      {/* Change Password Modal */}
+      {isPasswordVisible && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+          style={{ outline: "2px solid red" }}
+        >
+          <div
+            aria-label="card"
+            className="mb-4 max-h-[80%] w-[90%] max-w-lg rounded-3xl border-2 border-slate-500 bg-slate-800 p-8"
+            style={{ boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px" }}
+          >
+            <div aria-label="header" className="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 shrink-0"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="white"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M13 3v7h6l-8 11v-7H5l8-11z"></path>
+              </svg>
+              <div className="flex-1 space-y-0.5">
+                <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-200">
+                  Change Password
+                </h3>
+                <p className="text-sm font-normal leading-none text-gray-400">
+                  powered by Notorite
+                </p>
+              </div>
+              <button
+                onClick={() => setIsPasswordVisible(false)}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white focus:outline-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M17 7l-10 10"></path>
+                  <path d="M8 7h9v9"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div
+              aria-label="content"
+              className="mt-9 grid justify-items-center gap-2"
+            >
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-col items-start justify-center">
+                  <label
+                    className="font-bold text-gray-900 dark:text-white"
+                    htmlFor="currentPassword"
+                  >
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
+                    placeholder="Enter current password"
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col items-start justify-center">
+                  <label
+                    className="font-bold text-gray-900 dark:text-white"
+                    htmlFor="newPassword"
+                  >
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-900 focus:ring focus:ring-blue-500 dark:bg-stone-700 dark:text-gray-200"
+                    placeholder="Enter new password"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+              <button
+                className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600"
+                type="submit"
+                onClick={changePassword}
+              >
+                Change Password
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Divider (Draggable) */}
       {!isMobile && (

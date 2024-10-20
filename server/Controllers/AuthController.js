@@ -249,37 +249,112 @@ const verifyOtp = async (req, res) => {
 };
 
 export const update = async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Extract token from 'Bearer <token>'
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    return res.status(403).json({ error: "A token is required for authentication" });
   }
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
 
-    // Attach the decoded user information to the request (including userId)
-    req.user = decoded;
-    const userId = req.user.userId;
-    const { firstName, lastName, userBio, userName } = req.body;
-    const user = await User.findOne({ _id: userId });
+    const { firstName, lastName, userBio, userName, password } = req.body;
+    const user = await User.findById(userId);
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.userBio = userBio;
-    user.userName = userName;
-    await user.save();
-    return res.status(200).json({
+
+    // Password comparison only if password is provided in the request
+    if (password) {
+      if (!user.userPassword) {
+        return res.status(400).json({ error: "Please Enter Password to Verify" });
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.userPassword);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: "Invalid password" });
+      }
+    }
+
+    // Handle profile image upload if provided
+    if (req.file) {
+      console.log("Uploading profile image to Cloudinary...");
+      try{
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          public_id: `profile_images/${userId}`,
+          resource_type: "image",
+        });
+        user.profileImage = result.secure_url;
+        console.log("Image uploaded successfully:", result.secure_url);
+      } catch (uploadError) {
+        console.error("Cloudinary upload failed:", uploadError);
+        return res.status(500).json({ error: "Image upload failed" });
+      }
+    }
+
+    // Update user fields only if provided
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (userBio) user.userBio = userBio;
+    if (userName) user.userName = userName;
+
+    // Save the updated user in the database
+    const updatedUser = await user.save();
+    console.log("User successfully updated:", updatedUser);
+
+    res.status(200).json({
       message: "User updated successfully",
-      userData: {
-        status: "Ok",
-        token: token,
-        user: user,
-      },
+      userData: { user: updatedUser, token },
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(403).json({ error: "Authentication token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: "Both current and new passwords are required" });
+    }
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: "New password must be at least 8 characters long" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.userPassword);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Current password is incorrect" });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    user.userPassword = hashedPassword;
+
+    await user.save();
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: "Session expired. Please login again." });
+    }
+
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: "An error occurred while changing password" });
   }
 };
 
@@ -291,4 +366,5 @@ export default {
   sendOtp,
   verifyOtp,
   update,
+  changePassword,
 };
