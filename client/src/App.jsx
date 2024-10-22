@@ -66,7 +66,6 @@ const App = () => {
 
       <ToastContainer />
       <LoadingScreen />
-      <Footer />
     </Router>
   );
 };
