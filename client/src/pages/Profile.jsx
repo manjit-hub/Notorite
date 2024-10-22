@@ -62,37 +62,19 @@ const Profile = () => {
     const handleResize = () => {
       setIsAbove480px(window.innerWidth > 480); // Check if width is above 480px
     };
-
+  
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  
   useEffect(() => {
-    const handleResize = () => {
-      setIsAbove480px(window.innerWidth > 480); // Check if width is above 480px
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   const getUserFiles = async () => {
-  //     const result = await axios.get(`/notes/getFiles/${userId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setUserFiles(result.data.data);
-  //   };
-
-  //   getUserFiles();
-  // }, [userId, axios, token]);
-
+    if (userId && token) {
+      fetchUserFiles(); // Fetch files on mount
+    }
+  }, [userId, token]);
+  
   const fetchUserFiles = async () => {
     try {
       const result = await axios.get(`/notes/getFiles/${userId}`, {
@@ -104,7 +86,7 @@ const Profile = () => {
     } catch (error) {
       console.error("Error fetching user files:", error);
     }
-  };
+  };  
 
   const handleEditProfileClick = () => {
     fetchUserFiles(); // Fetch user files when "Edit Profile" is clicked
@@ -505,21 +487,21 @@ const Profile = () => {
                 className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white focus:outline-none"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M17 7l-10 10"></path>
-                  <path d="M8 7h9v9"></path>
-                </svg>
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M18 6L6 18"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
               </button>
             </div>
 
