@@ -278,12 +278,12 @@ const Profile = () => {
         </button>
         {isVisible && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75 dark:bg-black dark:bg-opacity-75"
             style={{ outline: "2px solid red" }}
           >
             <div
               aria-label="card"
-              className="mb-4 max-h-[80%] w-[90%] max-w-lg rounded-3xl border-2 border-slate-500 bg-slate-800 p-8"
+              className="mb-4 max-h-[80%] w-[90%] max-w-lg rounded-3xl border-2 border-gray-300 bg-white p-8 dark:border-slate-500 dark:bg-slate-800"
               style={{ boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px" }}
             >
               <div aria-label="header" className="flex items-center space-x-2">
@@ -303,7 +303,7 @@ const Profile = () => {
                   <path d="M13 3v7h6l-8 11v-7H5l8-11z"></path>
                 </svg>
                 <div className="flex-1 space-y-0.5">
-                  <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-200">
+                  <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-400">
                     Update Profile
                   </h3>
                   <p className="text-sm font-normal leading-none text-gray-400">
@@ -337,7 +337,7 @@ const Profile = () => {
                 className="mt-9 grid justify-items-center gap-2"
               >
                 <div className="flex flex-col gap-1">
-                  <div className="wflex flex-col items-start justify-center">
+                  <div className="wflex flex-col mt-0 items-start justify-center">
                     <label
                       className="font-bold text-gray-900 dark:text-white"
                       htmlFor="firstName"
@@ -455,7 +455,7 @@ const Profile = () => {
         >
           <div
             aria-label="card"
-            className="mb-4 max-h-[80%] w-[90%] max-w-lg rounded-3xl border-2 border-slate-500 bg-slate-800 p-8"
+            className="mb-4 max-h-[80%] w-[90%] max-w-lg rounded-3xl border-2 border-gray-300 bg-white p-8 dark:border-slate-500 dark:bg-slate-800"
             style={{ boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px" }}
           >
             <div aria-label="header" className="flex items-center space-x-2">
@@ -475,7 +475,7 @@ const Profile = () => {
                 <path d="M13 3v7h6l-8 11v-7H5l8-11z"></path>
               </svg>
               <div className="flex-1 space-y-0.5">
-                <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-200">
+                <h3 className="text-lg font-medium leading-tight tracking-tight text-gray-400">
                   Change Password
                 </h3>
                 <p className="text-sm font-normal leading-none text-gray-400">
@@ -567,7 +567,7 @@ const Profile = () => {
       {/* Right Pane */}
       <div
         style={{ width: isAbove480px ? `${100 - leftWidth}%` : "100%" }} // Dynamic width
-        className="h-auto border-[3px] border-gray-300 bg-gray-900 p-5 dark:border-gray-700 dark:bg-gray-900 lg:h-full"
+        className="h-auto border-[3px] border-gray-300 bg-gray-100 p-5 dark:border-gray-700 dark:bg-gray-900 lg:h-full"
       >
         <h1 className="mb-3 text-xl font-black text-gray-800 dark:text-gray-200">
           My Documents:
